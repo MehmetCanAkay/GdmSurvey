@@ -1,0 +1,35 @@
+# Her sağlayıcının önerdiği güncel ana model (Eylül 2026).
+# Üç model 29 Eylül 2026'da sağlayıcıların model listesinde doğrulandı.
+# Tüm yanıtlar tek bir sorgu oturumunda toplanır. Dönen gerçek sürüm
+# responses.model_version_returned alanına yazılır.
+#
+# temperature tanımlanmaz: bu modeller temperature=0 isteğini reddeder, örnekleme
+# sağlayıcı varsayılanında kalır. Tekrarlanabilirlik için düşünme seviyesi
+# (reasoning_effort) tüm modellerde aynı değere sabitlenir.
+# system_prompt: null tüm modellerde zorunludur.
+
+models:
+  - model_id: "M1"
+    provider: "OpenAI"
+    model_string: "gpt-6-astra"
+    reasoning_effort: "medium"
+    system_prompt: null
+
+  - model_id: "M2"
+    provider: "Anthropic"
+    model_string: "claude-opus-5-5"
+    reasoning_effort: "medium"
+    system_prompt: null
+
+  - model_id: "M3"
+    provider: "Google"
+    model_string: "gemini-3.8-flash"
+    reasoning_effort: "medium"
+    system_prompt: null
+
+  # Yerli modelin düşünme ayarı yoksa reasoning_effort boş kalır.
+  - model_id: "M4"
+    provider: "Yerli"
+    model_string: "yerli-model-placeholder"
+    reasoning_effort: null
+    system_prompt: null

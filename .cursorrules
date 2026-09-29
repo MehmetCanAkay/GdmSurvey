@@ -1,0 +1,12 @@
+Bu proje, Türkçe gestasyonel diyabet sorularına yapay zekaların verdiği yanıtları
+değerlendiren bir akademik araştırmadır. Kod yazarken:
+- Tüm yorum ve dokümantasyon Türkçe olsun
+- Her fonksiyon docstring içersin
+- API çağrılarında system prompt boş olur ve temperature gönderilmez (güncel akıl yürüten modeller reddeder); sağlayıcı varsayılan örneklemesi kullanılır, düşünme seviyesi (reasoning_effort) config/models.yaml içinde sabitlenir ve kaydedilir
+- Hassas bilgileri (API key, hasta verisi) asla loglara yazma
+- Veritabanı şemasındaki blind_code uzmanların gördüğü tek kimliktir
+- Hata yönetimi her API çağrısında zorunludur
+- SQLite veritabanı dosyası data/study.db yolundadır
+- Streamlit arayüzünde model adı asla gösterilmez (kör değerlendirme)
+- LLM API anahtarları .env'den okunur, koda asla gömülmez
+- SOLID ilkelerine uy, özellikle DI kullan

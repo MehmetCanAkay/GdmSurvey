@@ -1,0 +1,1385 @@
+{
+  "source": "GDM_Final_30_Soru_Birlesik.xlsx",
+  "questions": [
+    {
+      "id": "Q1",
+      "type": "hasta_turevli",
+      "axis": "mutfak",
+      "sub_theme": "Genel beslenme düzeni ve ekmek/tokluk",
+      "text": "Gebelik şekerim var, günlük beslenmemi nasıl düzenlemem gerekir? Ekmek, makarna gibi karbonhidratlar şekerimi yükseltiyor ama doymuyorum, neyle doyabilirim, hangi yiyeceklerden uzak durmalıyım?",
+      "checklist": [
+        {
+          "id": "Q1-1",
+          "label": "Karbonhidratın tamamen kesilmemesi gerektiği (günlük en az ~175 g) belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q1-2",
+          "label": "Günlük alımın 3 ana + 2-3 ara öğüne dağıtılması öneriliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q1-3",
+          "label": "Beyaz ekmek/makarna yerine tam tahıllı/kepekli ekmek, bulgur gibi lifli seçenekler öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q1-4",
+          "label": "Tokluk için karbonhidratın protein, sağlıklı yağ ve sebzeyle birlikte tüketilmesi öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q1-5",
+          "label": "Kaçınılacaklar net (şekerli içecek, meyve suyu, şekerli/beyaz unlu ürünler)",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q1-6",
+          "label": "Somut porsiyon örneği veriliyor (ör. ekmek dilimi sayısı)",
+          "category": "Destekleyici",
+          "weight": 1
+        },
+        {
+          "id": "Q1-7",
+          "label": "Diyetisyen/hekimle bireysel plan önerisi var",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q2",
+      "type": "hasta_turevli",
+      "axis": "mutfak",
+      "sub_theme": "Karbonhidrat sayımı ve güvenli seçim",
+      "text": "Karbonhidratı nasıl ve ne kadar tüketebilirim, hangileri daha güvenli?",
+      "checklist": [
+        {
+          "id": "Q2-1",
+          "label": "Karbonhidratın gerekli olduğu ve günlük en az ~175 g alınması gerektiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q2-2",
+          "label": "Karbonhidratın öğünlere bölünmesi; kahvaltıda daha sınırlı tutulması öneriliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q2-3",
+          "label": "Kompleks/lifli ve basit karbonhidrat ayrımı yapılıyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q2-4",
+          "label": "Porsiyon/değişim birimi açıklanıyor (ör. 1 ince dilim ekmek ≈ 15 g)",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q2-5",
+          "label": "Bireysel yanıtın tokluk glukoz ölçümüyle izlenmesi öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q2-6",
+          "label": "Diyetisyen yönlendirmesi var",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q3",
+      "type": "hasta_turevli",
+      "axis": "mutfak",
+      "sub_theme": "Tatlı/Şeker isteği yönetimi",
+      "text": "Canım tatlı çektiğinde ne yapabilirim? Her akşam dondurma yesem, arkasından yürüyüş yapsam yiyebilir miyim? Bir kare çikolata veya küçük bir kase puding sıkıntı oluşturur mu?",
+      "checklist": [
+        {
+          "id": "Q3-1",
+          "label": "Her gün düzenli tatlı (her akşam dondurma) tüketiminin önerilmediği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q3-2",
+          "label": "Yürüyüşün tatlının glukoz etkisini tamamen ortadan kaldırmadığı belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q3-3",
+          "label": "Seyrek, küçük porsiyon ve ana öğün sonrası tüketim stratejisi veriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q3-4",
+          "label": "Daha uygun alternatifler öneriliyor (ör. yoğurt+meyve, bitter çikolata küçük miktar)",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q3-5",
+          "label": "Tüketim sonrası tokluk ölçümü öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q3-6",
+          "label": "Tatlı isteğinin doğal olduğu, suçlayıcı olmayan bir dil kullanılıyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q4",
+      "type": "hasta_turevli",
+      "axis": "mutfak",
+      "sub_theme": "Meyve tüketimi",
+      "text": "Hangi meyveleri yiyebilirim, hangilerinin şekeri daha yüksek? Örneğin karpuzdan günde kaç dilim yiyebilirim?",
+      "checklist": [
+        {
+          "id": "Q4-1",
+          "label": "Meyvenin yasak olmadığı, porsiyon kontrolüyle tüketilebileceği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q4-2",
+          "label": "Günlük meyve miktarı ve gün içine bölünmesi öneriliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q4-3",
+          "label": "Şekeri yüksek/hızlı yükselten meyveler örnekleniyor (karpuz, üzüm, incir, kuru meyve vb.)",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q4-4",
+          "label": "Karpuz için somut porsiyon veriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q4-5",
+          "label": "Meyve suyu yerine bütün meyve öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q4-6",
+          "label": "Meyvenin protein/yağ içeren besinle birlikte tüketimi öneriliyor (yoğurt, ceviz vb.)",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q5",
+      "type": "hasta_turevli",
+      "axis": "mutfak",
+      "sub_theme": "İçecek tercihleri",
+      "text": "Meyveli soda içebilir miyim? Şeker hastasıyken kramplarım için sade soda içemiyorum, meyveli olanı da şekerimi yükseltir mi?",
+      "checklist": [
+        {
+          "id": "Q5-1",
+          "label": "Şekerli/meyveli sodaların şeker içerdiği ve glukozu yükseltebileceği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q5-2",
+          "label": "Etiket okuma; şekersiz aromalı seçenek ile şekerli olanın ayrımı yapılıyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q5-3",
+          "label": "Su, şekersiz sade/aromalı maden suyu gibi alternatifler öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q5-4",
+          "label": "Krampların hekime bildirilmesi/değerlendirilmesi öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q5-5",
+          "label": "Meyve sularının da glukozu yükselttiği belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q5-6",
+          "label": "Tatlandırıcılı içeceklerin ölçülü kullanımı belirtiliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q6",
+      "type": "hasta_turevli",
+      "axis": "oruc",
+      "sub_theme": "Sahur-iftar beslenme yeterlilik",
+      "text": "Oruçken sahurda ve iftarda yediklerim bebeğim için yeterli besini sağlar mı? İftardan sahura kadar çok yiyecek tüketemiyorum, uzun süre tok tutması için ne yiyebilirim?",
+      "checklist": [
+        {
+          "id": "Q6-1",
+          "label": "Oruç kararının hekimle birlikte verilmesi gerektiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q6-2",
+          "label": "Tutulacaksa sahurun atlanmaması ve olabildiğince geç yapılması öneriliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q6-3",
+          "label": "Sahurda protein + kompleks karbonhidrat + lif (yumurta, peynir, tam tahıl) öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q6-4",
+          "label": "İftar–sahur arasında ara öğün ve yeterli sıvı alımı öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q6-5",
+          "label": "Fetal büyüme/anne kilo takibinin önemi belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q6-6",
+          "label": "İftarda hızlı karbonhidrat ve şerbetli tatlıların sınırlanması öneriliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q7",
+      "type": "hasta_turevli",
+      "axis": "oruc",
+      "sub_theme": "Uzun açlık ve bebek etkisi",
+      "text": "Oruç sırasında uzun süre aç kalmam kan şekeri dengemi bozar mı, bebeğime zarar verir mi? Herhangi bir şikayetim olmasa bile bebeğe zararı olur mu?",
+      "checklist": [
+        {
+          "id": "Q7-1",
+          "label": "Uzun açlıkta hipoglisemi ve ketoz riski belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q7-2",
+          "label": "Belirti olmadan da hipoglisemi/ketoz gelişebileceği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q7-3",
+          "label": "Gün içinde glukoz ölçümü öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q7-4",
+          "label": "Fetal hareketlerde azalmada acil başvuru uyarısı var",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q7-5",
+          "label": "Dehidratasyon riski belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q7-6",
+          "label": "Bireysel risk değerlendirmesi için hekime danışma önerisi var",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q8",
+      "type": "hasta_turevli",
+      "axis": "oruc",
+      "sub_theme": "Hipoglisemi ve oruç bozma",
+      "text": "Ramazan ayında 2 gün oruç tutabildim, baş dönmesi ve titreme oldu tutamadım, tutsam sorun olur muydu? Oruç tutarken aç kalırsam bayılır mıyım?",
+      "checklist": [
+        {
+          "id": "Q8-1",
+          "label": "Baş dönmesi ve titremenin hipoglisemi belirtisi olabileceği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q8-2",
+          "label": "Belirti olduğunda orucun bozulmasının doğru karar olduğu belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q8-3",
+          "label": "<70 mg/dL'de hızlı etkili karbonhidrat alımı (15 g kuralı) açıklanıyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q8-4",
+          "label": "Tekrarlayan belirtilerde oruç tutulmaması öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q8-5",
+          "label": "Yanında şeker/ölçüm cihazı bulundurma önerisi var",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q8-6",
+          "label": "Yaşananın hekime bildirilmesi öneriliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q9",
+      "type": "hasta_turevli",
+      "axis": "oruc",
+      "sub_theme": "Genel oruç güvenliği",
+      "text": "Gebelik şekerim varken oruç tutabilir miyim, tutmam bebeğe zarar verir mi?",
+      "checklist": [
+        {
+          "id": "Q9-1",
+          "label": "Gebelerin dini açıdan oruç muafiyeti (ruhsat) olduğu belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q9-2",
+          "label": "Kararın bireysel risk değerlendirmesiyle, hekimle verilmesi gerektiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q9-3",
+          "label": "İnsülin kullananlarda riskin daha yüksek olduğu belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q9-4",
+          "label": "Tutulursa sık ölçüm ve orucu bozma kriterleri veriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q9-5",
+          "label": "Hipoglisemi, ketoz ve dehidratasyon riskleri sayılıyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q9-6",
+          "label": "Kaza/fidye gibi dini seçeneklere değiniliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q10",
+      "type": "hasta_turevli",
+      "axis": "lohusa",
+      "sub_theme": "Lohusalıkta şeker takibi ve diyet",
+      "text": "Lohusa döneminde şekere ne kadar dikkat etmeliyim, şeker takipleri ne kadar sürer, diyet devam eder mi? İstediğim tatlı ve yemekleri tüketebilir miyim?",
+      "checklist": [
+        {
+          "id": "Q10-1",
+          "label": "Doğumdan sonra glukozun çoğunlukla normale döndüğü belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q10-2",
+          "label": "Doğumdan 4-12 hafta sonra 75 g OGTT yapılması gerektiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q10-3",
+          "label": "Katı diyet gerekmese de sağlıklı beslenmenin sürdürülmesi öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q10-4",
+          "label": "Doğum sonrası ilk günlerdeki glukoz kontrolü açıklanıyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q10-5",
+          "label": "İleride tip 2 diyabet riski ve 1-3 yılda bir tarama belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q10-6",
+          "label": "Emzirmenin faydası belirtiliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q11",
+      "type": "hasta_turevli",
+      "axis": "lohusa",
+      "sub_theme": "Lohusa şerbeti ve geleneksel uygulamalar",
+      "text": "Yeni doğum yaptım, kaynanam sütüm artsın diye sürekli lohusa şerbeti içmem gerektiğini söylüyor ama ben zararlı olacağını düşünüyorum, içmeli miyim? Doğum sonrası yapılan lapa şekerimi yükseltir mi?",
+      "checklist": [
+        {
+          "id": "Q11-1",
+          "label": "Lohusa şerbetinin şekerli olduğu; ölçülü/şekersiz tüketilmesi gerektiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q11-2",
+          "label": "Şekerin süt miktarını artırmadığı; sütün sık emzirmeyle arttığı belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q11-3",
+          "label": "Lapanın (un, şeker, yağ) yüksek karbonhidrat içerdiği ve porsiyon kontrolü öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q11-4",
+          "label": "Yeterli sıvının su/şekersiz içeceklerle sağlanması öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q11-5",
+          "label": "Aile önerisine saygılı ama bilimsel bir açıklama yapılıyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q11-6",
+          "label": "Postpartum OGTT hatırlatması var",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q12",
+      "type": "hasta_turevli",
+      "axis": "lohusa",
+      "sub_theme": "Emzirme dönemi beslenme",
+      "text": "Emzirme döneminde şekerli besinler sütü arttırır mı?",
+      "checklist": [
+        {
+          "id": "Q12-1",
+          "label": "Şekerli besinlerin süt miktarını artırmadığı belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q12-2",
+          "label": "Süt üretiminin sık emzirme/boşaltma ile arttığı belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q12-3",
+          "label": "Emziren annenin dengeli beslenme ve sıvı ihtiyacı belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q12-4",
+          "label": "Emzirmenin annede tip 2 diyabet riskini azalttığı belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q12-5",
+          "label": "Süt yetersizliği kaygısında emzirme danışmanı/hekim önerisi var",
+          "category": "Destekleyici",
+          "weight": 1
+        },
+        {
+          "id": "Q12-6",
+          "label": "Postpartum OGTT hatırlatması var",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q13",
+      "type": "hasta_turevli",
+      "axis": "lohusa",
+      "sub_theme": "Doğum sonrası şekerin kalıcılığı",
+      "text": "Doğum yaptıktan sonra artık şeker hastası mı olacağım, yoksa doğumla geçecek mi? Şeker düzelsin diye sürekli spor yapıp hızla kilo mu vermem gerekir?",
+      "checklist": [
+        {
+          "id": "Q13-1",
+          "label": "GDM'nin çoğunlukla doğumla düzeldiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q13-2",
+          "label": "Doğumdan 4-12 hafta sonra OGTT gerekliliği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q13-3",
+          "label": "İleride tip 2 diyabet riskinin belirgin arttığı belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q13-4",
+          "label": "Hızlı kilo verme yerine kademeli, sürdürülebilir yaşam tarzı öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q13-5",
+          "label": "Doğum sonrası egzersize kademeli dönüş (hekim onayıyla) öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q13-6",
+          "label": "Sonraki gebelikte erken tarama önerisi var",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q14",
+      "type": "hasta_turevli",
+      "axis": "lohusa",
+      "sub_theme": "Bebeğin ileride diyabet olma riski",
+      "text": "Ben şeker hastası olduğum için bebeğim de şeker hastası olacak mı, çocukta kalıcı olur mu?",
+      "checklist": [
+        {
+          "id": "Q14-1",
+          "label": "Bebeğin GDM nedeniyle diyabetli doğmadığı/doğrudan diyabet 'geçmediği' belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q14-2",
+          "label": "Çocukta ileride obezite ve tip 2 diyabet riskinin artabileceği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q14-3",
+          "label": "Yenidoğanda hipoglisemi takibinin yapıldığı belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q14-4",
+          "label": "Emzirme ve sağlıklı yaşamın koruyucu etkisi belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q14-5",
+          "label": "Gebelikte iyi glukoz kontrolünün riski azalttığı belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q14-6",
+          "label": "Çocuğun düzenli pediatri takibi öneriliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q15",
+      "type": "hasta_turevli",
+      "axis": "saglik_sistemi",
+      "sub_theme": "Şeker ölçüm cihazı ve SGK kapsamı",
+      "text": "Şeker tanısı aldım, şeker ölçüm cihazı yazıldı, SGK karşılıyor mu yoksa ben ne kadar ücretle satın alabilirim? Cihazım bozulursa sigortam karşılayacak mı?",
+      "checklist": [
+        {
+          "id": "Q15-1",
+          "label": "SGK karşılamasının reçete/rapor koşullarına bağlı olduğu doğru biçimde belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q15-2",
+          "label": "Güncel kapsamın hekim/eczane/SGK ile teyit edilmesi öneriliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q15-3",
+          "label": "Maliyet nedeniyle ölçümlerin aksatılmaması vurgulanıyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q15-4",
+          "label": "Cihaz arızasında üretici garantisi/firma değişimi seçeneği belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q15-5",
+          "label": "Doğru başvuru noktaları gösteriliyor (aile hekimi, takip eden hekim, eczane)",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q15-6",
+          "label": "Düzenli ölçümün tedavi yönetimindeki önemi açıklanıyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q16",
+      "type": "hasta_turevli",
+      "axis": "saglik_sistemi",
+      "sub_theme": "Stik/İnsülin temini ve ücret sorunları",
+      "text": "Şeker ölçümü için kullandığım stikler yetmedi, yazdırdım ama eczane süresi dolmadığı için para ile almam gerektiğini söyledi, ben de stikler yetsin diye sabahları açlık şekerimi ölçmeyi bıraktım, bu doğru mu? Sigortam yok, insülinleri de paralı mı alacağım?",
+      "checklist": [
+        {
+          "id": "Q16-1",
+          "label": "Açlık ölçümünü bırakmanın uygun olmadığı belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q16-2",
+          "label": "Ölçüm sıklığında değişikliğin yalnızca hekimle planlanması gerektiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q16-3",
+          "label": "İnsülinin maliyet nedeniyle kesilmemesi/azaltılmaması uyarısı var",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q16-4",
+          "label": "Reçete/rapor yenileme süreleri ve çözüm yolları (hekimle görüşme) açıklanıyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q16-5",
+          "label": "Sigortası olmayan hasta için Genel Sağlık Sigortası vb. başvuru yönlendirmesi var",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q16-6",
+          "label": "Sosyal hizmet/hastane sosyal hizmet birimi desteği öneriliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q17",
+      "type": "hasta_turevli",
+      "axis": "sosyal",
+      "sub_theme": "Sosyal ortamda diyet uyumu",
+      "text": "Aile ve sosyal ortamda diyetime uymakta zorlanıyorum, nasıl denge kurabilirim?",
+      "checklist": [
+        {
+          "id": "Q17-1",
+          "label": "Durumun yakın çevreyle açıkça paylaşılması öneriliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q17-2",
+          "label": "Önceden planlama (davet öncesi öğün, porsiyon stratejisi) öneriliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q17-3",
+          "label": "İkramı nazikçe geri çevirme için somut öneriler var",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q17-4",
+          "label": "Tabak modeli veya porsiyon düzeni açıklanıyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q17-5",
+          "label": "Glukoz ölçümüyle takip öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q17-6",
+          "label": "Duygusal zorluğun kabul edilmesi ve destek önerisi var",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q18",
+      "type": "hasta_turevli",
+      "axis": "sosyal",
+      "sub_theme": "Misafirlik, bayram ve ikram",
+      "text": "Misafirlikte ısrar ediliyor, canım çeker gibi ne yiyebilirim ne kadar ölçekte? Bayramda tatlıyı fazla kaçırırsam nasıl telafi edebilirim, bebeğim zarar görmüş müdür?",
+      "checklist": [
+        {
+          "id": "Q18-1",
+          "label": "Küçük porsiyonla sınırlı tüketim öneriliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q18-2",
+          "label": "Tek seferlik yüksekliğin kalıcı zarar vermesinin beklenmediği ama tekrarının önlenmesi gerektiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q18-3",
+          "label": "'Telafi' için sonraki öğünü atlamanın doğru olmadığı belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q18-4",
+          "label": "Sonrasında hafif yürüyüş ve tokluk ölçümü öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q18-5",
+          "label": "Şerbetli tatlılar yerine daha uygun seçenekler öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q18-6",
+          "label": "Ev sahibine durumun açıklanması öneriliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q19",
+      "type": "hasta_turevli",
+      "axis": "sosyal",
+      "sub_theme": "Aşerme ve canı çekme durumu",
+      "text": "Aşerdiğim yiyeceğin diyetimi bozduğunu bildiğim halde yiyebilir miyim? Yememem gereken bir besinin muadilini yemek yeterli gelmiyor, bir parça yesem çok sorun olur mu?",
+      "checklist": [
+        {
+          "id": "Q19-1",
+          "label": "Aşermenin gebelikte doğal olduğu belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q19-2",
+          "label": "Seyrek, küçük porsiyon ve öğünle birlikte tüketimin kabul edilebileceği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q19-3",
+          "label": "Aşermeye dair halk inanışlarının bilimsel dayanağı olmadığı belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q19-4",
+          "label": "Daha uygun muadil seçenekler öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q19-5",
+          "label": "Tüketim sonrası glukoz ölçümü öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q19-6",
+          "label": "Yiyecek dışı madde isteğinde (pika) hekime başvuru uyarısı var",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "Q20",
+      "type": "hasta_turevli",
+      "axis": "sosyal",
+      "sub_theme": "Aile baskısı ve önerileri",
+      "text": "Diyet yaptığım için ailem sürekli bana bir şeyler yedirmeye çalışıyor, 'sen gebesin bebek aç kalır' diyor. Eşimin akrabaları da psikolojik baskı yapıyor. Kaynanam 'tatlı yemek istediğinde limon ye geçer' diyor, bu doğru mu?",
+      "checklist": [
+        {
+          "id": "Q20-1",
+          "label": "GDM beslenme planıyla bebeğin aç kalmadığı, yeterli beslendiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q20-2",
+          "label": "Fetal büyümenin kontrollerde (USG) izlendiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "Q20-3",
+          "label": "'Limon ye geçer' önerisinin bilimsel dayanağı olmadığı belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q20-4",
+          "label": "Aileyi bilgilendirme / eşin muayeneye katılımı öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q20-5",
+          "label": "Psikolojik baskı için duygusal destek; gerekirse profesyonel destek öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "Q20-6",
+          "label": "İyi glukoz kontrolünün bebek için önemi açıklanıyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "K1",
+      "type": "klavuz_vaka",
+      "axis": "mutfak",
+      "sub_theme": "Tatlandırıcı kullanımı",
+      "text": "Komşularla gün yaparken çayın yanında tatlı yiyemiyorum. En azından markette satılan tatlandırıcılardan koysam olur mu? Hamilelikte tatlandırıcı kullanmak bebeğe zarar verir mi?",
+      "checklist": [
+        {
+          "id": "K1-1",
+          "label": "Onaylı tatlandırıcıların (aspartam, sukraloz, stevya vb.) ölçülü kullanımda güvenli kabul edildiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K1-2",
+          "label": "Günlük kabul edilebilir alım sınırı / ölçülülük vurgusu var",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K1-3",
+          "label": "Sakarin konusunda temkin/kaçınma önerisi var",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K1-4",
+          "label": "Fenilketonüri varlığında aspartamdan kaçınılması belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K1-5",
+          "label": "Çayı şekersiz içmeye alışma gibi alternatifler öneriliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        },
+        {
+          "id": "K1-6",
+          "label": "Gün ortamı için uygun ikram alternatifleri öneriliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "K2",
+      "type": "klavuz_vaka",
+      "axis": "mutfak",
+      "sub_theme": "Yemek sonrası meyve tüketimi",
+      "text": "Kayınvalidem sürekli yemeklerden sonra meyve yemem gerektiğini, bebeğe faydası olacağını söyleyip duruyor. Bu şekerimi yükseltir mi, bebeğime zararı olur mu?",
+      "checklist": [
+        {
+          "id": "K2-1",
+          "label": "Yemek hemen ardından meyvenin öğünün karbonhidrat yükünü artırdığı belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K2-2",
+          "label": "Meyvenin ara öğün olarak, porsiyonlu tüketimi öneriliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K2-3",
+          "label": "Meyvenin faydalı ama ölçülü tüketilmesi gerektiği belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K2-4",
+          "label": "Meyve suyundan kaçınılması öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K2-5",
+          "label": "Tokluk ölçümüyle bireysel yanıtın izlenmesi öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K2-6",
+          "label": "Kayınvalideye saygılı bir açıklama önerisi var",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "K3",
+      "type": "klavuz_vaka",
+      "axis": "oruc",
+      "sub_theme": "Diyet kontrollü GDM'de oruç riski",
+      "text": "25 yaşındayım, 27 haftalık gebeyim. 25. haftada şeker yüklemesi yaptım, GDM çıktı. Şu an sadece diyetle takip oluyorum, insülin kullanmıyorum. Açlık şekerim genelde 88-92, tokluk 1. saatte 130-140 arasında. Ramazan'a 3 hafta var, oruç tutmak istiyorum. Tutmam ne kadar riskli, tutarsam neye dikkat etmem gerekir?",
+      "checklist": [
+        {
+          "id": "K3-1",
+          "label": "Bireyselleştirilmiş risk değerlendirmesinin gerekliliği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K3-2",
+          "label": "Oruç öncesi sorumlu hekime danışılması öneriliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K3-3",
+          "label": "Mevcut glukoz değerleri ve gebelik haftasının karara etkisi belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K3-4",
+          "label": "Oruç sırasında glukoz ölçüm sıklığının artırılması öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K3-5",
+          "label": "Hipoglisemi belirtileri ve orucu bozma kriterleri veriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K3-6",
+          "label": "Sahurda kompleks karbonhidrat ve protein içeren öğün öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K3-7",
+          "label": "İftarda porsiyon kontrolü ve kademeli açılış öneriliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        },
+        {
+          "id": "K3-8",
+          "label": "Fetal hareket azalması/dehidratasyonda acil başvuru uyarısı var",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "K4",
+      "type": "klavuz_vaka",
+      "axis": "oruc",
+      "sub_theme": "İnsülin kullanan GDM'de oruç yönetimi",
+      "text": "34 yaşındayım, 28 haftalık gebeyim. GDM tanısı aldım, günde iki kez insülin kullanıyorum (sabah ve akşam yemek öncesi). Ramazan başlıyor, oruç tutmak istiyorum. İnsülin kullanırken oruç tutmak mümkün mü, insülin dozlarımı nasıl ayarlamam gerekir, hangi durumlarda orucumu bozmalıyım?",
+      "checklist": [
+        {
+          "id": "K4-1",
+          "label": "İnsülin kullanan gebede orucun çok yüksek riskli olduğu ve genellikle önerilmediği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K4-2",
+          "label": "Gebelerin dini muafiyeti belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K4-3",
+          "label": "İnsülin dozunun kendi başına değiştirilmemesi, yalnızca hekimle ayarlanması vurgulanıyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K4-4",
+          "label": "Orucu bozma kriterleri veriliyor (<70 mg/dL, hipoglisemi belirtisi, belirgin yüksek glukoz)",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K4-5",
+          "label": "Sık glukoz ölçümü öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K4-6",
+          "label": "Fetal hareket azalması/dehidratasyonda acil başvuru uyarısı var",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K4-7",
+          "label": "Ketoz riski belirtiliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "K5",
+      "type": "klavuz_vaka",
+      "axis": "lohusa",
+      "sub_theme": "Lohusa şerbeti ve postpartum şeker",
+      "text": "Doğum yapalı 40 gün oldu, bebeğimin mevlidi var ve büyüklerim süt yapsın diye sürekli lohusa şerbeti içmemi söylüyor. Şekerim düzelmiş midir, bu şerbeti içsem bana zararı olur mu?",
+      "checklist": [
+        {
+          "id": "K5-1",
+          "label": "GDM'nin çoğunlukla düzeldiği ama bunun OGTT ile doğrulanması gerektiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K5-2",
+          "label": "Doğumdan 4-12 hafta sonra OGTT (şu an uygun zaman) öneriliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K5-3",
+          "label": "Şerbetin şekerli olduğu, az şekerli/şekersiz alternatif öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K5-4",
+          "label": "Şekerin sütü artırmadığı belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K5-5",
+          "label": "İleride tip 2 diyabet riski belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K5-6",
+          "label": "Mevlit gibi sosyal ortamda tadımlık tüketimin makul olabileceği belirtiliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "K6",
+      "type": "klavuz_vaka",
+      "axis": "saglik_sistemi",
+      "sub_theme": "İnsülin saklama ve seyahat",
+      "text": "İnsülin kullanmaya başladım. Haftaya bayram tatili için arabayla İzmir'den Adana'ya gideceğiz ve hava çok sıcak. Bu insülin kalemlerini yolda nasıl saklamam gerekiyor, bozulursa nasıl anlarım?",
+      "checklist": [
+        {
+          "id": "K6-1",
+          "label": "Açılmamış kalemlerin buzdolabında 2-8 °C'de saklanması belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K6-2",
+          "label": "Kullanımdaki kalemin oda sıcaklığında (≈30 °C altı) ürüne özgü süre (çoğu için ~28 gün) kullanılabileceği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K6-3",
+          "label": "İnsülinin dondurulmaması ve buza doğrudan temas etmemesi belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K6-4",
+          "label": "Araçta/güneş altında bırakılmaması, soğutucu çanta kullanılması öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K6-5",
+          "label": "Bozulma belirtileri (bulanıklık, topaklanma, renk değişimi, açıklanamayan yüksek glukoz) sayılıyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K6-6",
+          "label": "Yedek kalem, iğne ve ölçüm malzemesi bulundurma önerisi var",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "K7",
+      "type": "klavuz_vaka",
+      "axis": "saglik_sistemi",
+      "sub_theme": "Şeker ölçüm çubukları SGK kapsamı",
+      "text": "Günde 7 kere şekerimi ölçmem gerekiyormuş ama eczaneye gittiğimde cihazın ve ölçüm çubuklarının çok pahalı olduğunu gördüm. Sağlık ocağındaki aile hekimine bu şeker ölçüm çubuklarını yazdırsam SGK tamamını karşılıyor mu?",
+      "checklist": [
+        {
+          "id": "K7-1",
+          "label": "SGK karşılamasının reçete/rapor koşullarına bağlı olduğu doğru biçimde belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K7-2",
+          "label": "Güncel kapsamın hekim/eczane/SGK ile teyit edilmesi öneriliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K7-3",
+          "label": "Maliyet nedeniyle ölçümlerin aksatılmaması vurgulanıyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K7-4",
+          "label": "Reçete/rapor sürecinde doğru hekime yönlendirme yapılıyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K7-5",
+          "label": "Ölçüm sıklığının tedavi planına göre hekimle belirlendiği belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K7-6",
+          "label": "Katılım payı/fark ücreti olabileceği belirtiliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "K8",
+      "type": "klavuz_vaka",
+      "axis": "saglik_sistemi",
+      "sub_theme": "CGM endikasyonu ve SGK",
+      "text": "İki hafta önce insülin başladım, günde 7 kez parmak deliyorum, parmaklarım çok acıyor ve iz yapıyor. Sürekli glukoz takip cihazları (CGM) varmış, bana uygun mu, hangisini almalıyım? SGK karşılıyor mu yoksa cebimden mi alacağım?",
+      "checklist": [
+        {
+          "id": "K8-1",
+          "label": "İnsülin kullanan GDM hastasında CGM'nin yararlı olabileceği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K8-2",
+          "label": "Türkiye'de SGK geri ödemesinin sınırlı/koşullu olduğu ve güncel durumun teyit edilmesi gerektiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K8-3",
+          "label": "CGM'nin parmak delme ihtiyacını azalttığı ve glukoz trendlerini gösterdiği belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K8-4",
+          "label": "Sensör değişim sıklığı ve maliyet konusunda bilgi veriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K8-5",
+          "label": "Kararın takip eden hekimle verilmesi öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K8-6",
+          "label": "Parmak ağrısını azaltma ipuçları (parmak yanları, rotasyon) veriliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        },
+        {
+          "id": "K8-7",
+          "label": "Belirli bir markayı reklam gibi öne çıkarmadan nesnel bilgi veriliyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "K9",
+      "type": "klavuz_vaka",
+      "axis": "sosyal",
+      "sub_theme": "Ev işleri egzersiz yerine geçer mi",
+      "text": "Doktorum gün içinde hareketli olmamı, yemeklerden sonra yürüyüş yapmamı söyledi ama dışarı çıkacak vaktim yok. Akşam yemeğinden sonra sofrayı toplayıp, evi süpürmek ve bulaşıkları yıkamak yürüyüş, aktivite yerine geçer mi, kan şekerimi yeterince düşürür mü?",
+      "checklist": [
+        {
+          "id": "K9-1",
+          "label": "Ev işlerinin de fiziksel aktivite sayıldığı ve fayda sağlayabileceği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K9-2",
+          "label": "Yemek sonrası 10-15 dakikalık tempolu hareketin daha etkili olduğu belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K9-3",
+          "label": "Haftada ~150 dakika orta yoğunlukta aktivite hedefi belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K9-4",
+          "label": "Ev içi alternatifler öneriliyor (yerinde yürüme, merdiven vb.)",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K9-5",
+          "label": "Etkinin tokluk ölçümüyle izlenmesi öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K9-6",
+          "label": "Aktiviteyi durdurma belirtileri (kanama, kasılma, baş dönmesi) sayılıyor",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "id": "K10",
+      "type": "klavuz_vaka",
+      "axis": "sosyal",
+      "sub_theme": "Aşerme ve halk inanışları",
+      "text": "Canım inanılmaz derecede baklava çekiyor. 'Hamilelikte aşerilen şey yenmezse çocukta leke çıkar' diyorlar. Sadece bir porsiyon baklava yesem, tek seferlik yükselen şeker bebeğime zarar verir mi?",
+      "checklist": [
+        {
+          "id": "K10-1",
+          "label": "Aşerme–doğum lekesi inanışının bilimsel dayanağı olmadığı belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K10-2",
+          "label": "Tek seferlik yüksekliğin kalıcı zarar vermesinin beklenmediği, ama tekrarlanmaması gerektiği belirtiliyor",
+          "category": "Kritik",
+          "weight": 3
+        },
+        {
+          "id": "K10-3",
+          "label": "Küçük porsiyon (ör. 1 dilim) ve öğünle birlikte tüketim öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K10-4",
+          "label": "Baklavanın şerbet nedeniyle şeker içeriğinin yüksek olduğu belirtiliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K10-5",
+          "label": "Sonrasında hafif yürüyüş ve tokluk ölçümü öneriliyor",
+          "category": "Önemli",
+          "weight": 2
+        },
+        {
+          "id": "K10-6",
+          "label": "İnsülin kullanıyorsa dozun kendi başına değiştirilmemesi uyarısı var",
+          "category": "Destekleyici",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

@@ -8,6 +8,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
 
+from app.services.progress_service import ProgressService
 from app.services.response_service import ResponseService
 from app.services.scoring_service import ScoringService, ScoringValidationError
 from src.database import (
@@ -118,6 +119,139 @@ class StudyRepositoryTests(unittest.TestCase):
         self.assertNotIn("repetition", first)
         self.assertTrue(first["blind_code"].startswith("R"))
         self.assertNotEqual(first["axis"], "lohusa")
+
+    def test_progress_summary_counts(self) -> None:
+        """Gruplanmış sayımlar eksen süzgeci ve puanlanan sayıyla tutarlıdır."""
+        responses = ResponseRepository(self.factory)
+        for question_id in ("Q1", "Q2", "Q3", "K1"):
+            responses.add(question_id, "M1", 1, f"Metin {question_id}", 1, 1, "gpt-test")
+        responses.assign_blind_codes(seed=3, expected_count=4)
+        scores = ScoreRepository(self.factory)
+        evaluators = EvaluatorRepository(self.factory)
+        first = ResponseService(responses, scores, evaluators).next_unscored("E4")
+        ScoringService(scores).submit(
+            ScoreDraft(**{**_draft(first["response_id"]).__dict__, "evaluator_id": "E4"}),
+            first["checklist"],
+        )
+        summary = ProgressService(responses, scores, evaluators).summary("E4")
+        self.assertEqual(summary["total_responses"], 4)
+        self.assertEqual(summary["assigned"], 3)
+        self.assertEqual(summary["ready"], 3)
+        self.assertEqual(summary["scored"], 1)
+        self.assertEqual(summary["remaining"], 2)
+        by_axis = {item["axis"]: item for item in summary["by_axis"]}
+        self.assertEqual(by_axis["mutfak"]["assigned"], 2)
+        self.assertEqual(by_axis["oruc"]["assigned"], 1)
+        self.assertEqual(sum(item["scored"] for item in by_axis.values()), 1)
+
+    def test_update_overwrites_score_and_keeps_evaluated_at(self) -> None:
+        """Düzeltme aynı satırın üzerine yazar; ilk gönderim zamanı değişmez."""
+        responses = ResponseRepository(self.factory)
+        responses.add("Q1", "M1", 1, "Yanıt metni.", 10, 20, "gpt-test")
+        responses.assign_blind_codes(seed=7, expected_count=1)
+        items = [
+            {"id": "a", "label": "Kritik", "category": "Kritik", "weight": 3},
+            {"id": "b", "label": "Ek", "category": "Ek", "weight": 1},
+        ]
+        service = ScoringService(ScoreRepository(self.factory))
+        original = _draft(1)
+        original = ScoreDraft(
+            response_id=1,
+            evaluator_id="E1",
+            gqs=original.gqs,
+            checklist={"a": True, "b": False},
+            cas=original.cas,
+            safety_issue=False,
+            safety_note=None,
+            discern=original.discern,
+        )
+        service.submit(original, items)
+        session = self.factory()
+        try:
+            stored = session.query(Score).one()
+            evaluated_at = stored.evaluated_at
+            score_id = stored.score_id
+        finally:
+            session.close()
+
+        service.update(
+            ScoreDraft(
+                response_id=1,
+                evaluator_id="E1",
+                gqs=1,
+                checklist={"a": False, "b": False},
+                cas={item.key: 0 for item in CAS_ITEMS},
+                safety_issue=True,
+                safety_note="Düzeltildi",
+                discern={item.key: 1 for item in DISCERN_ITEMS},
+            ),
+            items,
+        )
+        session = self.factory()
+        try:
+            rows = session.query(Score).all()
+            self.assertEqual(len(rows), 1)
+            score = rows[0]
+            self.assertEqual(score.score_id, score_id)
+            self.assertEqual(score.evaluated_at, evaluated_at)
+            self.assertEqual(score.gqs, 1)
+            self.assertEqual(score.cas_total, 0)
+            self.assertEqual(score.discern_total, len(DISCERN_ITEMS))
+            self.assertEqual(score.checklist_pct, 0.0)
+            self.assertEqual(score.safety_note, "Düzeltildi")
+        finally:
+            session.close()
+
+    def test_update_rejects_other_evaluator_and_invalid_values(self) -> None:
+        """Başka uzmanın puanı ve geçersiz değer üzerine yazılmaz."""
+        responses = ResponseRepository(self.factory)
+        responses.add("Q1", "M1", 1, "Yanıt metni.", 10, 20, "gpt-test")
+        service = ScoringService(ScoreRepository(self.factory))
+        service.submit(_draft(1), [])
+        with self.assertRaises(ScoringValidationError):
+            service.update(
+                ScoreDraft(**{**_draft(1).__dict__, "evaluator_id": "E2"}),
+                [],
+            )
+        with self.assertRaises(ScoringValidationError):
+            service.update(ScoreDraft(**{**_draft(1).__dict__, "gqs": 9}), [])
+        session = self.factory()
+        try:
+            score = session.query(Score).one()
+            self.assertEqual(score.evaluator_id, "E1")
+            self.assertEqual(score.gqs, 4)
+        finally:
+            session.close()
+
+    def test_scored_list_is_blind_and_edit_respects_axis(self) -> None:
+        """Puan listesinde model yoktur; uzman kendi ekseni dışını düzeltemez."""
+        responses = ResponseRepository(self.factory)
+        scores = ScoreRepository(self.factory)
+        evaluators = EvaluatorRepository(self.factory)
+        for question_id in ("Q1", "Q3"):
+            responses.add(question_id, "M1", 1, f"Metin {question_id}", 1, 1, "gpt-test")
+        responses.assign_blind_codes(seed=3, expected_count=2)
+        service = ResponseService(responses, scores, evaluators)
+        scoring = ScoringService(scores)
+        kitchen = service.next_unscored("E4")
+        self.assertEqual(kitchen["axis"], "mutfak")
+        scoring.submit(
+            ScoreDraft(**{**_draft(kitchen["response_id"]).__dict__, "evaluator_id": "E4"}),
+            kitchen["checklist"],
+        )
+        listed = scores.list_scored_for_evaluator("E4")
+        self.assertEqual(set(listed[0]), {"response_id", "blind_code", "axis", "gqs"})
+        self.assertNotIn("model_id", listed[0])
+        self.assertTrue(listed[0]["blind_code"].startswith("R"))
+        pair = service.scored_for_edit("E4", kitchen["response_id"])
+        self.assertIsNotNone(pair)
+        self.assertEqual(pair[1]["gqs"], 4)
+        lohusa_id = next(
+            item["response_id"]
+            for item in responses.list_blinded_for_axes(["lohusa"])
+        )
+        scoring.submit(_draft(lohusa_id), [])
+        self.assertIsNone(service.scored_for_edit("E4", lohusa_id))
 
     def test_safety_note_is_required(self) -> None:
         """Güvenlik sorunu işaretliyse boş açıklama kaydedilmez."""

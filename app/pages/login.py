@@ -9,7 +9,14 @@ if str(_ROOT) not in sys.path:
 
 import streamlit as st
 
-from app.dependencies import build_services
+from app.dependencies import app_services
+from app.study_info import render_study_info
+
+
+@st.cache_data(ttl=600, show_spinner=False)
+def _login_choices() -> list[dict]:
+    """Giriş listesini önbellekten verir; her yeniden çizimde veritabanına gidilmez."""
+    return app_services().evaluators.list_for_login()
 
 
 def render() -> None:
@@ -19,11 +26,13 @@ def render() -> None:
 
     st.title("GDM LLM Çalışması")
     st.subheader("Uzman puanlama girişi")
-    st.caption("Yanıtlar kör olarak sunulur. Model adı bu uygulamada görünmez.")
+    render_study_info(expanded=True)
 
-    services = build_services()
-    evaluators = services.evaluators.list_for_login()
+    services = app_services()
+    with st.spinner("Yükleniyor..."):
+        evaluators = _login_choices()
     if not evaluators:
+        _login_choices.clear()
         st.warning("Kayıtlı uzman yok. Önce `python -m src.query_runner --init` çalıştırın.")
         return
 
@@ -44,7 +53,8 @@ def render() -> None:
         st.error("Uzman ve şifre zorunludur.")
         return
 
-    result = services.evaluators.authenticate(labels[selected], password)
+    with st.spinner("Giriş yapılıyor..."):
+        result = services.evaluators.authenticate(labels[selected], password)
     if result is None:
         st.error("Şifre hatalı.")
         return

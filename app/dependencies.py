@@ -2,6 +2,9 @@
 
 from dataclasses import dataclass
 
+import streamlit as st
+from sqlalchemy.orm import sessionmaker
+
 from app.services.evaluator_service import EvaluatorService
 from app.services.progress_service import ProgressService
 from app.services.response_service import ResponseService
@@ -11,6 +14,7 @@ from src.database import (
     ResponseRepository,
     ScoreRepository,
     SessionLocal,
+    interactive_engine,
 )
 
 
@@ -36,3 +40,9 @@ def build_services(session_factory=None) -> Services:
         scoring=ScoringService(scores),
         progress=ProgressService(responses, scores, evaluators),
     )
+
+
+@st.cache_resource(show_spinner=False)
+def app_services() -> Services:
+    """Arayüz servislerini havuzlu motorla bir kez kurar; tüm oturumlar paylaşır."""
+    return build_services(sessionmaker(bind=interactive_engine()))

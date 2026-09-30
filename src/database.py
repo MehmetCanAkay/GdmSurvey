@@ -24,6 +24,7 @@ from sqlalchemy import (
     Text,
     UniqueConstraint,
     create_engine,
+    func,
 )
 from dotenv import load_dotenv
 from sqlalchemy.orm import DeclarativeBase, Session, relationship, sessionmaker
@@ -70,6 +71,30 @@ else:
     ENGINE = sqlite_engine(DB_PATH)
 
 SessionLocal = sessionmaker(bind=ENGINE)
+
+
+def interactive_engine():
+    """
+    Arayüz için bağlantı havuzlu motor döndürür.
+
+    Uzak PostgreSQL'de her yeni bağlantı saniyeler sürer; arayüz bağlantıyı
+    yeniden kullanır. Pooler'ın kestiği bağlantılar pre_ping ile yenilenir.
+    AUTOCOMMIT, her sorgudaki BEGIN/COMMIT gidiş-dönüşlerini kaldırır. Bu yalnızca
+    arayüzün yazma işlemleri tek ifadeden oluştuğu sürece güvenlidir; birden çok
+    ifadeli bir yazma eklenirse o işlem kendi transaction'ını açmalıdır.
+    SQLite'ta toplu işlerle aynı motor kullanılır.
+    """
+    if not DATABASE_URL:
+        return ENGINE
+    return create_engine(
+        DATABASE_URL,
+        echo=False,
+        pool_size=2,
+        max_overflow=3,
+        pool_pre_ping=True,
+        pool_recycle=300,
+        isolation_level="AUTOCOMMIT",
+    )
 
 
 class Base(DeclarativeBase):
@@ -418,6 +443,51 @@ class ResponseRepository(_Repository):
                 counts[axis] = counts.get(axis, 0) + 1
             return counts
 
+    def axis_counts(self) -> dict[str, dict[str, int]]:
+        """Eksen başına toplam ve kör kodu atanmış yanıt sayısı; tek sorgu."""
+        with self._session() as session:
+            rows = (
+                session.query(
+                    Question.axis,
+                    func.count(Response.response_id),
+                    func.count(Response.blind_code),
+                )
+                .join(Response, Response.question_id == Question.question_id)
+                .group_by(Question.axis)
+                .all()
+            )
+            return {axis: {"total": total, "ready": ready} for axis, total, ready in rows}
+
+    def blinded_ids_for_axes(self, axes: list[str]) -> list[int]:
+        """Puanlamaya açık yanıtların yalnızca kimlikleri. Metin çekilmez."""
+        with self._session() as session:
+            rows = (
+                session.query(Response.response_id)
+                .join(Question, Response.question_id == Question.question_id)
+                .filter(Question.axis.in_(axes))
+                .filter(Response.blind_code.isnot(None))
+                .all()
+            )
+            return [row[0] for row in rows]
+
+    def get_blinded(self, response_id: int) -> dict | None:
+        """Tek bir kör yanıtı model bilgisi olmadan döndürür."""
+        with self._session() as session:
+            row = (
+                session.query(Response, Question)
+                .join(Question, Response.question_id == Question.question_id)
+                .filter(Response.response_id == response_id)
+                .filter(Response.blind_code.isnot(None))
+                .first()
+            )
+            if row is None:
+                return None
+            item = _blinded_payload(*row)
+        unexpected = set(item) - BLINDED_RESPONSE_KEYS
+        if unexpected:
+            raise RuntimeError(f"Kör yanıta model bilgisi karıştı: {unexpected}")
+        return item
+
     def add_readability(self, response_id: int, metrics: dict) -> None:
         """Bir yanıtın okunabilirlik ölçümlerini yazar."""
         with self._session() as session:
@@ -572,38 +642,79 @@ class ScoreRepository(_Repository):
 
     def add(self, payload: dict) -> int:
         """Doğrulanmış puanı yazar. Aynı uzman-yanıt çifti ikinci kez yazılamaz."""
-        cas_total = sum(payload[item.key] for item in CAS_ITEMS)
-        discern_total = sum(payload[item.key] for item in DISCERN_ITEMS)
         with self._session() as session:
             score = Score(
                 response_id=payload["response_id"],
                 evaluator_id=payload["evaluator_id"],
-                gqs=payload["gqs"],
-                checklist_json=json.dumps(payload["checklist"], ensure_ascii=False),
-                checklist_pct=payload["checklist_pct"],
-                checklist_weighted_pct=payload["checklist_weighted_pct"],
-                cas_food=payload["cas_food"],
-                cas_religion=payload["cas_religion"],
-                cas_health_system=payload["cas_health_system"],
-                cas_local=payload["cas_local"],
-                cas_cultural=payload["cas_cultural"],
-                cas_total=cas_total,
-                safety_issue=payload["safety_issue"],
-                safety_note=payload["safety_note"],
-                discern_purpose=payload["discern_purpose"],
-                discern_relevance=payload["discern_relevance"],
-                discern_sources=payload["discern_sources"],
-                discern_uncertainty=payload["discern_uncertainty"],
-                discern_alternatives=payload["discern_alternatives"],
-                discern_risks=payload["discern_risks"],
-                discern_physician_ref=payload["discern_physician_ref"],
-                discern_balance=payload["discern_balance"],
-                discern_total=discern_total,
                 evaluated_at=utc_now(),
             )
+            _apply_payload(score, payload)
             session.add(score)
             session.flush()
             return score.score_id
+
+    def get_for_evaluator(self, response_id: int, evaluator_id: str) -> dict | None:
+        """Uzmanın bu yanıta verdiği puanı, düzeltme formunu dolduracak sözlük olarak döndürür."""
+        with self._session() as session:
+            score = (
+                session.query(Score)
+                .filter_by(response_id=response_id, evaluator_id=evaluator_id)
+                .first()
+            )
+            if score is None:
+                return None
+            return _score_form_dict(score)
+
+    def update(self, payload: dict) -> bool:
+        """
+        Uzmanın mevcut puanının üzerine yazar.
+
+        Kayıt yoksa False döner. evaluated_at ilk gönderim zamanı olarak kalır.
+        """
+        with self._session() as session:
+            score = (
+                session.query(Score)
+                .filter_by(
+                    response_id=payload["response_id"],
+                    evaluator_id=payload["evaluator_id"],
+                )
+                .first()
+            )
+            if score is None:
+                return False
+            _apply_payload(score, payload)
+            return True
+
+    def list_scored_for_evaluator(self, evaluator_id: str) -> list[dict]:
+        """
+        Uzmanın puanladığı yanıtları, en yeni gönderim başta olacak şekilde listeler.
+
+        Dönüş yalnızca kör kod, eksen ve GQS içerir. Model bilgisi yoktur.
+        """
+        with self._session() as session:
+            rows = (
+                session.query(
+                    Response.response_id,
+                    Response.blind_code,
+                    Question.axis,
+                    Score.gqs,
+                )
+                .join(Response, Score.response_id == Response.response_id)
+                .join(Question, Response.question_id == Question.question_id)
+                .filter(Score.evaluator_id == evaluator_id)
+                .filter(Response.blind_code.isnot(None))
+                .order_by(Score.evaluated_at.desc(), Score.score_id.desc())
+                .all()
+            )
+            return [
+                {
+                    "response_id": response_id,
+                    "blind_code": blind_code,
+                    "axis": axis,
+                    "gqs": gqs,
+                }
+                for response_id, blind_code, axis, gqs in rows
+            ]
 
     def scored_response_ids(self, evaluator_id: str) -> set[int]:
         """Uzmanın puanladığı yanıt kimlikleri."""
@@ -624,16 +735,46 @@ class ScoreRepository(_Repository):
         """Uzmanın eksen başına puan sayısı."""
         with self._session() as session:
             rows = (
-                session.query(Question.axis, Score.score_id)
+                session.query(Question.axis, func.count(Score.score_id))
                 .join(Response, Score.response_id == Response.response_id)
                 .join(Question, Response.question_id == Question.question_id)
                 .filter(Score.evaluator_id == evaluator_id)
+                .group_by(Question.axis)
                 .all()
             )
-            counts: dict[str, int] = {}
-            for axis, _score_id in rows:
-                counts[axis] = counts.get(axis, 0) + 1
-            return counts
+            return {axis: count for axis, count in rows}
+
+
+def _apply_payload(score: Score, payload: dict) -> None:
+    """Puan alanlarını ve toplamları yazar. evaluated_at ve kimlik sütunlarına dokunmaz."""
+    score.gqs = payload["gqs"]
+    score.checklist_json = json.dumps(payload["checklist"], ensure_ascii=False)
+    score.checklist_pct = payload["checklist_pct"]
+    score.checklist_weighted_pct = payload["checklist_weighted_pct"]
+    for item in CAS_ITEMS:
+        setattr(score, item.key, payload[item.key])
+    score.cas_total = sum(payload[item.key] for item in CAS_ITEMS)
+    score.safety_issue = payload["safety_issue"]
+    score.safety_note = payload["safety_note"]
+    for item in DISCERN_ITEMS:
+        setattr(score, item.key, payload[item.key])
+    score.discern_total = sum(payload[item.key] for item in DISCERN_ITEMS)
+
+
+def _score_form_dict(score: Score) -> dict:
+    """Puan satırını düzeltme formunun beklediği sözlüğe çevirir. Model bilgisi yoktur."""
+    try:
+        checklist = json.loads(score.checklist_json or "{}")
+    except json.JSONDecodeError:
+        checklist = {}
+    return {
+        "gqs": score.gqs,
+        "checklist": checklist,
+        "cas": {item.key: getattr(score, item.key) for item in CAS_ITEMS},
+        "safety_issue": bool(score.safety_issue),
+        "safety_note": score.safety_note or "",
+        "discern": {item.key: getattr(score, item.key) for item in DISCERN_ITEMS},
+    }
 
 
 def _evaluator_dict(evaluator: Evaluator) -> dict:

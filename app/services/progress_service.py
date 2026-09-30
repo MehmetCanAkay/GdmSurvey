@@ -31,13 +31,13 @@ class ProgressService:
                 "by_axis": [],
             }
         axes = evaluator["assigned_axes"]
-        assigned_by_axis = self._responses.count_by_axis()
+        counts = self._responses.axis_counts()
         scored_by_axis = self._scores.scored_counts_by_axis(evaluator_id)
-        ready = len(self._responses.list_blinded_for_axes(axes))
-        scored = self._scores.count_for_evaluator(evaluator_id)
+        ready = sum(counts.get(axis, {}).get("ready", 0) for axis in axes)
+        scored = sum(scored_by_axis.values())
         return {
-            "total_responses": self._responses.count(),
-            "assigned": self._responses.count_for_axes(axes),
+            "total_responses": sum(item["total"] for item in counts.values()),
+            "assigned": sum(counts.get(axis, {}).get("total", 0) for axis in axes),
             "ready": ready,
             "scored": scored,
             "remaining": max(0, ready - scored),
@@ -45,7 +45,7 @@ class ProgressService:
                 {
                     "axis": axis,
                     "label": axis_label(axis),
-                    "assigned": assigned_by_axis.get(axis, 0),
+                    "assigned": counts.get(axis, {}).get("total", 0),
                     "scored": scored_by_axis.get(axis, 0),
                 }
                 for axis in axes

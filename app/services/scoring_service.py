@@ -23,6 +23,19 @@ class ScoringService:
 
         checklist_items sorunun kapsamlılık maddeleridir. weight yoksa 1 sayılır.
         """
+        try:
+            return self._scores.add(self._build_payload(draft, checklist_items))
+        except IntegrityError as exc:
+            raise ScoringValidationError("Bu yanıtı daha önce puanladınız.") from exc
+
+    def update(self, draft: ScoreDraft, checklist_items: list[dict]) -> None:
+        """Mevcut puanın üzerine yazar. Kayıt yoksa hata fırlatır."""
+        payload = self._build_payload(draft, checklist_items)
+        if not self._scores.update(payload):
+            raise ScoringValidationError("Düzeltilecek puan bulunamadı.")
+
+    def _build_payload(self, draft: ScoreDraft, checklist_items: list[dict]) -> dict:
+        """Doğrulanmış puanı repository'nin beklediği sözlüğe çevirir."""
         expected_checklist_ids = [item["id"] for item in checklist_items]
         self._validate(draft, expected_checklist_ids)
         checklist = {
@@ -47,10 +60,7 @@ class ScoringService:
             payload[item.key] = draft.cas[item.key]
         for item in DISCERN_ITEMS:
             payload[item.key] = draft.discern[item.key]
-        try:
-            return self._scores.add(payload)
-        except IntegrityError as exc:
-            raise ScoringValidationError("Bu yanıtı daha önce puanladınız.") from exc
+        return payload
 
     def _validate(self, draft: ScoreDraft, expected_checklist_ids: list[str]) -> None:
         """Aralık, eksik madde ve güvenlik notu kurallarını denetler."""

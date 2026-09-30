@@ -3,9 +3,18 @@
 import sys
 from pathlib import Path
 
-_ROOT = Path(__file__).resolve().parents[2]
-if str(_ROOT) not in sys.path:
-    sys.path.insert(0, str(_ROOT))
+def _ensure_project_root() -> None:
+    """Repo kökünü import yoluna ekler. Üst dizin sayısı sabit değildir."""
+    here = Path(__file__).resolve()
+    for parent in here.parents:
+        if (parent / "src" / "database.py").is_file() and (parent / "app" / "dependencies.py").is_file():
+            root = str(parent)
+            if root not in sys.path:
+                sys.path.insert(0, root)
+            return
+
+
+_ensure_project_root()
 
 import streamlit as st
 

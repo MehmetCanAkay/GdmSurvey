@@ -11,6 +11,7 @@ import logging
 from datetime import datetime, timezone
 from pathlib import Path
 
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import sessionmaker
 
 from src.database import (
@@ -102,10 +103,11 @@ class StudyRunner:
                 for repetition in range(1, repetitions + 1):
                     planned.append((question, model, repetition))
 
+        existing = self._responses.existing_keys()
         pending = [
             item
             for item in planned
-            if not self._responses.exists(item[0]["question_id"], item[1]["model_id"], item[2])
+            if (item[0]["question_id"], item[1]["model_id"], item[2]) not in existing
         ]
         already = len(planned) - len(pending)
         logger.info("Planlanan: %d, kayıtlı: %d, sorgulanacak: %d", len(planned), already, len(pending))
@@ -128,17 +130,7 @@ class StudyRunner:
                 )
                 result = await client.query(question["question_text"])
                 if result.success:
-                    response_id = self._responses.add(
-                        question_id=question["question_id"],
-                        model_id=model["model_id"],
-                        repetition=repetition,
-                        response_text=result.response_text,
-                        tokens_used=result.tokens_used,
-                        latency_ms=result.latency_ms,
-                        model_version_returned=result.model_version_returned,
-                        finish_reason=result.finish_reason,
-                    )
-                    self._responses.add_readability(response_id, analyze_text(result.response_text))
+                    self._store_response(question, model, repetition, result)
                     success += 1
                     if result.truncated:
                         truncated += 1
@@ -178,6 +170,28 @@ class StudyRunner:
         expected = question_count * model_count * repetitions
         assigned = self._responses.assign_blind_codes(seed, expected)
         logger.info("Kör kod atandı. adet=%d seed=%d", assigned, seed)
+
+    def _store_response(self, question: dict, model: dict, repetition: int, result) -> None:
+        """Yanıtı ve okunabilirliği yazar. Kopan pooler bağlantısında bir kez dener."""
+        last_error = None
+        for attempt in range(2):
+            try:
+                response_id = self._responses.add(
+                    question_id=question["question_id"],
+                    model_id=model["model_id"],
+                    repetition=repetition,
+                    response_text=result.response_text,
+                    tokens_used=result.tokens_used,
+                    latency_ms=result.latency_ms,
+                    model_version_returned=result.model_version_returned,
+                    finish_reason=result.finish_reason,
+                )
+                self._responses.add_readability(response_id, analyze_text(result.response_text))
+                return
+            except OperationalError as exc:
+                last_error = exc
+                logger.warning("Veritabanı bağlantısı koptu, yeniden denenecek.")
+        raise last_error
 
     def _sync_models(self, specs) -> None:
         """models.yaml içeriğini veritabanına yazar."""

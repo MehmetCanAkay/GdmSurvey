@@ -12,9 +12,11 @@ from src.domain import MAX_OUTPUT_TOKENS
 from src.llm_clients import (
     AnthropicClient,
     GeminiClient,
+    LocalModelClient,
     OpenAIClient,
     _is_transient,
     _safe_error,
+    _strip_thinking,
     load_model_specs,
 )
 
@@ -205,6 +207,53 @@ class RequestBodyTests(unittest.TestCase):
         self.assertEqual(config.thinking_config.thinking_level, genai_types.ThinkingLevel.MEDIUM)
         self.assertEqual(config.max_output_tokens, MAX_OUTPUT_TOKENS)
         self.assertEqual(result.finish_reason, "STOP")
+
+    def test_local_body(self) -> None:
+        """Yerel sunucu: yalnızca kullanıcı mesajı, temperature yok, düşünme bloğu atılır."""
+        captured = {}
+
+        class FakeCompletions:
+            """chat.completions.create çağrısını kaydeder."""
+
+            async def create(self, **kwargs):
+                """Gelen parametreleri saklar ve sahte yanıt döndürür."""
+                captured.update(kwargs)
+                return types.SimpleNamespace(
+                    choices=[
+                        types.SimpleNamespace(
+                            message=types.SimpleNamespace(content="<think>iç düşünce</think>\n\nYanıt."),
+                            finish_reason="stop",
+                        )
+                    ],
+                    usage=types.SimpleNamespace(total_tokens=64),
+                    model="models/trendyol-llm-8b-t1-1aeda72-bf16",
+                )
+
+        class FakeClient:
+            """AsyncOpenAI yerine geçer."""
+
+            def __init__(self, **kwargs):
+                """Uç noktayı kaydeder ve chat.completions zincirini kurar."""
+                captured["base_url"] = kwargs["base_url"]
+                self.chat = types.SimpleNamespace(completions=FakeCompletions())
+
+        with mock.patch("openai.AsyncOpenAI", FakeClient):
+            client = LocalModelClient("models/trendyol-llm-8b-t1-1aeda72-bf16", None, {})
+            result = asyncio.run(client.query("Soru?"))
+        self.assertTrue(result.success, result.error_message)
+        self.assertEqual(result.response_text, "Yanıt.")
+        self.assertEqual(captured["base_url"], "http://localhost:8080/v1")
+        self.assertEqual(captured["messages"], [{"role": "user", "content": "Soru?"}])
+        self.assertEqual(captured["max_tokens"], MAX_OUTPUT_TOKENS)
+        self.assertFalse(FORBIDDEN_KEYS & set(captured))
+        self.assertEqual(result.model_version_returned, "models/trendyol-llm-8b-t1-1aeda72-bf16")
+
+    def test_strip_thinking_variants(self) -> None:
+        """Tam blok, yalnızca kapanış etiketi ve kesik düşünme doğru ayıklanır."""
+        self.assertEqual(_strip_thinking("<think>a</think>Yanıt."), "Yanıt.")
+        self.assertEqual(_strip_thinking("düşünce\n</think>\n\nYanıt."), "Yanıt.")
+        self.assertEqual(_strip_thinking("<think>yarım kalan düşünce"), "")
+        self.assertEqual(_strip_thinking("Düz yanıt."), "Düz yanıt.")
 
     def test_missing_key_fails_without_retry(self) -> None:
         """Anahtar yoksa çağrı başarısız döner; hata metninde anahtar geçmez."""

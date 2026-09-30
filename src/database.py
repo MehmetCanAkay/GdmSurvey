@@ -27,6 +27,7 @@ from sqlalchemy import (
 )
 from dotenv import load_dotenv
 from sqlalchemy.orm import DeclarativeBase, Session, relationship, sessionmaker
+from sqlalchemy.pool import NullPool
 
 from src.domain import (
     BLINDED_RESPONSE_KEYS,
@@ -58,7 +59,13 @@ def sqlite_engine(path: Path):
 
 
 if DATABASE_URL:
-    ENGINE = create_engine(DATABASE_URL, echo=False, pool_pre_ping=True)
+    # Transaction pooler boşta kalan bağlantıyı keser; havuz kullanılmaz.
+    ENGINE = create_engine(
+        DATABASE_URL,
+        echo=False,
+        poolclass=NullPool,
+        pool_pre_ping=True,
+    )
 else:
     ENGINE = sqlite_engine(DB_PATH)
 
@@ -380,6 +387,12 @@ class ResponseRepository(_Repository):
                 .first()
             )
             return found is not None
+
+    def existing_keys(self) -> set[tuple[str, str, int]]:
+        """Kayıtlı tüm (soru, model, tekrar) üçlülerini tek sorguda döndürür."""
+        with self._session() as session:
+            rows = session.query(Response.question_id, Response.model_id, Response.repetition).all()
+            return {(question_id, model_id, repetition) for question_id, model_id, repetition in rows}
 
     def count(self) -> int:
         """Toplam yanıt sayısı."""

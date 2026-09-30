@@ -283,7 +283,12 @@ class GeminiClient(_BaseClient):
 
 
 class LocalModelClient(_BaseClient):
-    """Yerli model için OpenAI uyumlu HTTP uç noktası. temperature gönderilmez."""
+    """
+    Yerli model için OpenAI uyumlu HTTP uç noktası (mlx_lm.server). temperature gönderilmez.
+
+    Örnekleme ayarları sunucu başlatılırken modelin generation_config.json değerleriyle verilir.
+    Düşünme bloğu uzmanlara gösterilmemesi için yanıt metninden ayıklanır.
+    """
 
     provider = "Yerli"
 
@@ -292,7 +297,7 @@ class LocalModelClient(_BaseClient):
         from openai import AsyncOpenAI
 
         client = AsyncOpenAI(
-            base_url=self._env.get("LOCAL_MODEL_ENDPOINT", "http://localhost:8000/v1"),
+            base_url=self._env.get("LOCAL_MODEL_ENDPOINT", "http://localhost:8080/v1"),
             api_key=self._env.get("LOCAL_MODEL_API_KEY", "not-needed"),
             timeout=REQUEST_TIMEOUT_SECONDS,
             max_retries=0,
@@ -305,12 +310,27 @@ class LocalModelClient(_BaseClient):
         )
         choice = response.choices[0]
         return _success(
-            text=choice.message.content or "",
+            text=_strip_thinking(choice.message.content or ""),
             tokens=response.usage.total_tokens if response.usage else 0,
             started=started,
             version=response.model or self.model_string,
             finish_reason=choice.finish_reason,
         )
+
+
+def _strip_thinking(text: str) -> str:
+    """
+    <think>…</think> düşünme bloğunu yanıttan siler.
+
+    Sohbet şablonu <think> etiketini istemin içinde açtığında metinde yalnızca
+    </think> görünür; öncesi düşünmedir. Kapanmamış <think> ise yanıtın düşünme
+    sırasında kesildiğini gösterir ve geriye nihai yanıt kalmaz.
+    """
+    if "</think>" in text:
+        text = text.rsplit("</think>", 1)[1]
+    elif "<think>" in text:
+        text = text.split("<think>", 1)[0]
+    return text.strip()
 
 
 def _required(env: dict[str, str], name: str) -> str:

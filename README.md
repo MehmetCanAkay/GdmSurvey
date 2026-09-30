@@ -53,7 +53,7 @@ cp .env.example .env
 | M1 | OpenAI | `gpt-6-astra` | medium |
 | M2 | Anthropic | `claude-opus-5-5` | medium |
 | M3 | Google | `gemini-3.8-flash` | medium |
-| M4 | Yerli | yer tutucu | — |
+| M4 | Yerli | `Trendyol/Trendyol-LLM-8B-T1` @ `1aeda72` (bf16, MLX) | düşünme açık (seviye yok) |
 
 Güncel akıl yürüten modeller `temperature` parametresini reddeder ya da yok sayar. Bu yüzden:
 
@@ -61,6 +61,29 @@ Güncel akıl yürüten modeller `temperature` parametresini reddeder ya da yok 
 - Yanıtı etkileyen tek ayar olan düşünme seviyesi (`reasoning_effort`) üç modelde `medium` olarak sabitlenir ve kaydedilir.
 - System prompt gönderilmez. `models.yaml` içine `temperature` ya da dolu `system_prompt` yazılırsa çalışma başlamaz.
 - Her soru iki kez sorulur. Örnekleme sabit olmadığı için iki tekrar, modelin kendi içindeki tutarlılığını (test-tekrar test) ölçer. Makalenin yöntem bölümünde bu gerekçe belirtilmelidir.
+
+### Yerli model (M4) kurulumu
+
+Ağırlıklar açık olduğundan sabit bir Hugging Face commit'inden indirilir ve kurum içinde, veri dışarı çıkmadan çalıştırılır. Komutlar proje kök dizininde, sırayla çalıştırılır:
+
+```bash
+pip install mlx-lm "huggingface_hub[cli]"
+
+hf download Trendyol/Trendyol-LLM-8B-T1 \
+  --revision 1aeda7229465d71662aacd26e6c6e8f167f683a7 \
+  --local-dir models/trendyol-llm-8b-t1-1aeda72-hf
+
+mlx_lm.convert --hf-path models/trendyol-llm-8b-t1-1aeda72-hf \
+  --mlx-path models/trendyol-llm-8b-t1-1aeda72-bf16
+
+mlx_lm.server --model models/trendyol-llm-8b-t1-1aeda72-bf16 --port 8080 \
+  --temp 0.6 --top-p 0.95 --top-k 20
+```
+
+- `--model` değeri `models.yaml` içindeki M4 `model_string` ile aynı olmalıdır.
+- `--temp 0.6 --top-p 0.95 --top-k 20` modelin kendi `generation_config.json` değerleridir. Verilmezse `mlx_lm.server` açgözlü çözümleme (0.0) kullanır; bu, diğer modellerdeki "sağlayıcı varsayılanı" ilkesiyle çelişir. İstemci yine `temperature` göndermez.
+- Sunucu, sorgu çalıştırılırken ayrı bir terminalde açık kalmalıdır.
+- Yanıttaki `<think>` düşünme bloğu kaydedilmeden önce ayıklanır; uzmanlar yalnızca nihai yanıtı görür.
 
 Düşünme belirteçleri çıktı sınırından düştüğü için sınır 16.000 belirteç, zaman aşımı 180 saniyedir. Sınıra takılan yanıtın `finish_reason` alanı kaydedilir, logda uyarı çıkar ve çalışma sonunda kesik yanıt sayısı yazılır. Kesik yanıtlar puanlamadan önce gözden geçirilmelidir.
 

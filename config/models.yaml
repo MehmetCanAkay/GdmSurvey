@@ -27,9 +27,23 @@ models:
     reasoning_effort: "medium"
     system_prompt: null
 
-  # Yerli modelin düşünme ayarı yoksa reasoning_effort boş kalır.
+  # Trendyol/Trendyol-LLM-8B-T1 (Qwen3-8B tabanlı, Apache-2.0), Hugging Face
+  # commit 1aeda7229465d71662aacd26e6c6e8f167f683a7, bf16, quantize edilmeden
+  # MLX formatına çevrildi ve mlx_lm.server ile yerelde çalıştırıldı.
+  #
+  # model_string, mlx_lm.server --model argümanıyla karakteri karakterine aynı
+  # olmalıdır; farklıysa sunucu bu değeri Hugging Face deposu sanıp sabitlenmemiş
+  # sürümü indirmeye çalışır.
+  #
+  # mlx_lm.server istekte temperature yoksa 0.0 kullanır. Sağlayıcı varsayılanı
+  # olarak modelin generation_config.json değerleri sunucu başlatılırken verilir:
+  # --temp 0.6 --top-p 0.95 --top-k 20
+  #
+  # Qwen3'te düşünme seviyesi yoktur, yalnızca açık/kapalıdır. Düşünme modelin
+  # varsayılanı olan açık konumdadır (/no_think eklenmez); bu yüzden
+  # reasoning_effort boş kalır. <think> bloğu yanıt metninden ayıklanır.
   - model_id: "M4"
     provider: "Yerli"
-    model_string: "yerli-model-placeholder"
+    model_string: "models/trendyol-llm-8b-t1-1aeda72-bf16"
     reasoning_effort: null
     system_prompt: null

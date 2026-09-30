@@ -13,6 +13,9 @@ build/
 dist/
 *.egg-info/
 
+# Yerel model ağırlıkları (~16 GB, Hugging Face'ten commit ile yeniden indirilir)
+models/
+
 # Veritabanı
 data/study.db
 data/pilot.db

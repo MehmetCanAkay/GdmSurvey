@@ -164,14 +164,14 @@ def _validate(questions: list[dict], summary: dict[str, dict]) -> None:
         problems.append(f"Soru sayısı {len(questions)}; beklenen {EXPECTED_QUESTION_COUNT}.")
 
     patient = sum(1 for q in questions if q["type"] == QuestionType.HASTA_TUREVLI.value)
-    guideline = sum(1 for q in questions if q["type"] == QuestionType.KLAVUZ_VAKA.value)
+    guideline = sum(1 for q in questions if q["type"] == QuestionType.KILAVUZ_VAKA.value)
     if patient != EXPECTED_PATIENT_QUESTION_COUNT:
         problems.append(
             f"Hasta-türevli soru sayısı {patient}; beklenen {EXPECTED_PATIENT_QUESTION_COUNT}."
         )
     if guideline != EXPECTED_GUIDELINE_QUESTION_COUNT:
         problems.append(
-            f"Klavuz vakası sayısı {guideline}; beklenen {EXPECTED_GUIDELINE_QUESTION_COUNT}."
+            f"Kılavuz vakası sayısı {guideline}; beklenen {EXPECTED_GUIDELINE_QUESTION_COUNT}."
         )
 
     actual_ids: dict[str, list[str]] = {}

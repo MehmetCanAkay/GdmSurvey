@@ -362,7 +362,7 @@ def _question_file() -> Path:
             },
             {
                 "id": "K1",
-                "type": "klavuz_vaka",
+                "type": "kilavuz_vaka",
                 "axis": "mutfak",
                 "sub_theme": "Deneme",
                 "text": "Vaka",

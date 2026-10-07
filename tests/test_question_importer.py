@@ -28,7 +28,7 @@ class QuestionImporterTests(unittest.TestCase):
         self.assertTrue(first["text"].startswith("Gebelik şekerim var"))
         self.assertEqual(payload["questions"][20]["id"], "K1")
         self.assertEqual(
-            sum(1 for question in payload["questions"] if question["type"] == "klavuz_vaka"),
+            sum(1 for question in payload["questions"] if question["type"] == "kilavuz_vaka"),
             10,
         )
 

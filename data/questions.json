@@ -652,7 +652,7 @@
       "type": "hasta_turevli",
       "axis": "lohusa",
       "sub_theme": "Bebeğin ileride diyabet olma riski",
-      "text": "Hamileliğimde gebelik şekeri çıktığı için bebeğim de şeker hastası olacak mı, çocukta kalıcı olur mu?",
+      "text": "Hamileliğimde gebelik şekeri çıkmıştı. Ben şeker hastası olduğum için bebeğim de şeker hastası olacak mı, çocukta kalıcı olur mu?",
       "cas_items": [
         "cas_cultural"
       ],
@@ -994,7 +994,7 @@
     },
     {
       "id": "K1",
-      "type": "klavuz_vaka",
+      "type": "kilavuz_vaka",
       "axis": "mutfak",
       "sub_theme": "Tatlandırıcı kullanımı",
       "text": "Gebelik şekerim var. Komşularla gün yaparken çayın yanında tatlı yiyemiyorum. En azından markette satılan tatlandırıcılardan koysam olur mu? Hamilelikte tatlandırıcı kullanmak bebeğe zarar verir mi?",
@@ -1043,7 +1043,7 @@
     },
     {
       "id": "K2",
-      "type": "klavuz_vaka",
+      "type": "kilavuz_vaka",
       "axis": "mutfak",
       "sub_theme": "Yemek sonrası meyve tüketimi",
       "text": "Gebelik şekerim var. Kayınvalidem sürekli yemeklerden sonra meyve yemem gerektiğini, bebeğe faydası olacağını söyleyip duruyor. Bu şekerimi yükseltir mi, bebeğime zararı olur mu?",
@@ -1093,7 +1093,7 @@
     },
     {
       "id": "K3",
-      "type": "klavuz_vaka",
+      "type": "kilavuz_vaka",
       "axis": "oruc",
       "sub_theme": "Diyet kontrollü GDM'de oruç riski",
       "text": "25 yaşındayım, 27 haftalık gebeyim. 25. haftada şeker yüklemesi yaptım, GDM çıktı. Şu an sadece diyetle takip oluyorum, insülin kullanmıyorum. Açlık şekerim genelde 88-92, tokluk 1. saatte 130-140 arasında. Ramazan'a 3 hafta var, oruç tutmak istiyorum. Tutmam ne kadar riskli, tutarsam neye dikkat etmem gerekir?",
@@ -1155,7 +1155,7 @@
     },
     {
       "id": "K4",
-      "type": "klavuz_vaka",
+      "type": "kilavuz_vaka",
       "axis": "oruc",
       "sub_theme": "İnsülin kullanan GDM'de oruç yönetimi",
       "text": "34 yaşındayım, 28 haftalık gebeyim. GDM tanısı aldım, günde iki kez insülin kullanıyorum (sabah ve akşam yemek öncesi). Ramazan başlıyor, oruç tutmak istiyorum. İnsülin kullanırken oruç tutmak mümkün mü, insülin dozlarımı nasıl ayarlamam gerekir, hangi durumlarda orucumu bozmalıyım?",
@@ -1210,7 +1210,7 @@
     },
     {
       "id": "K5",
-      "type": "klavuz_vaka",
+      "type": "kilavuz_vaka",
       "axis": "lohusa",
       "sub_theme": "Lohusa şerbeti ve postpartum şeker",
       "text": "Hamileliğimde gebelik şekeri çıkmıştı. Doğum yapalı 40 gün oldu, bebeğimin mevlidi var ve büyüklerim süt yapsın diye sürekli lohusa şerbeti içmemi söylüyor. Şekerim düzelmiş midir, bu şerbeti içsem bana zararı olur mu?",
@@ -1261,7 +1261,7 @@
     },
     {
       "id": "K6",
-      "type": "klavuz_vaka",
+      "type": "kilavuz_vaka",
       "axis": "saglik_sistemi",
       "sub_theme": "İnsülin saklama ve seyahat",
       "text": "Gebelik şekerim için insülin kullanmaya başladım. Haftaya bayram tatili için arabayla İzmir'den Adana'ya gideceğiz ve hava çok sıcak. Bu insülin kalemlerini yolda nasıl saklamam gerekiyor, bozulursa nasıl anlarım?",
@@ -1310,7 +1310,7 @@
     },
     {
       "id": "K7",
-      "type": "klavuz_vaka",
+      "type": "kilavuz_vaka",
       "axis": "saglik_sistemi",
       "sub_theme": "Şeker ölçüm çubukları SGK kapsamı",
       "text": "Gebelik şekerim var. Günde 7 kere şekerimi ölçmem gerekiyormuş ama eczaneye gittiğimde cihazın ve ölçüm çubuklarının çok pahalı olduğunu gördüm. Sağlık ocağındaki aile hekimine bu şeker ölçüm çubuklarını yazdırsam SGK tamamını karşılıyor mu?",
@@ -1359,7 +1359,7 @@
     },
     {
       "id": "K8",
-      "type": "klavuz_vaka",
+      "type": "kilavuz_vaka",
       "axis": "saglik_sistemi",
       "sub_theme": "CGM endikasyonu ve SGK",
       "text": "Gebelik şekerim için iki hafta önce insülin başladım, günde 7 kez parmak deliyorum, parmaklarım çok acıyor ve iz yapıyor. Sürekli glukoz takip cihazları (CGM) varmış, bana uygun mu, hangisini almalıyım? SGK karşılıyor mu yoksa cebimden mi alacağım?",
@@ -1414,7 +1414,7 @@
     },
     {
       "id": "K9",
-      "type": "klavuz_vaka",
+      "type": "kilavuz_vaka",
       "axis": "sosyal",
       "sub_theme": "Ev işleri egzersiz yerine geçer mi",
       "text": "Gebelik şekerim var. Doktorum gün içinde hareketli olmamı, yemeklerden sonra yürüyüş yapmamı söyledi ama dışarı çıkacak vaktim yok. Akşam yemeğinden sonra sofrayı toplayıp, evi süpürmek ve bulaşıkları yıkamak yürüyüş, aktivite yerine geçer mi, kan şekerimi yeterince düşürür mü?",
@@ -1462,7 +1462,7 @@
     },
     {
       "id": "K10",
-      "type": "klavuz_vaka",
+      "type": "kilavuz_vaka",
       "axis": "sosyal",
       "sub_theme": "Aşerme ve halk inanışları",
       "text": "Gebelik şekerim var. Canım inanılmaz derecede baklava çekiyor. 'Hamilelikte aşerilen şey yenmezse çocukta leke çıkar' diyorlar. Sadece bir porsiyon baklava yesem, tek seferlik yükselen şeker bebeğime zarar verir mi?",

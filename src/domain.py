@@ -13,7 +13,7 @@ class QuestionType(str, Enum):
     """Sorunun kökeni: hasta ifadesi ya da kılavuzdan türetilmiş vaka."""
 
     HASTA_TUREVLI = "hasta_turevli"
-    KLAVUZ_VAKA = "klavuz_vaka"
+    KILAVUZ_VAKA = "kilavuz_vaka"
 
 
 class Axis(str, Enum):
@@ -45,7 +45,7 @@ AXIS_LABELS: dict[Axis, str] = {
 
 TYPE_LABELS: dict[QuestionType, str] = {
     QuestionType.HASTA_TUREVLI: "Hasta-türevli",
-    QuestionType.KLAVUZ_VAKA: "Klavuz vakası",
+    QuestionType.KILAVUZ_VAKA: "Kılavuz vakası",
 }
 
 ROLE_LABELS: dict[EvaluatorRole, str] = {

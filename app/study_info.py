@@ -14,7 +14,7 @@ modellerinin verdiği yanıtları uzman gözüyle değerlendirmenizi rica ediyor
 **Her yanıt için beş bölüm**
 1. **GQS:** Genel kalite, 1 (çok düşük) ile 5 (mükemmel) arası.
 2. **Kapsamlılık:** Soruya özel maddelerden yanıtta karşılananları işaretleyin. Kritik maddeler ayrı gösterilir.
-3. **Kültürel uygunluk (CAS):** Beş madde, 0 (uyumsuz) ile 2 (uyumlu) arası.
+3. **Kültürel uygunluk (CAS):** 0 (uyumsuz), 1 (kısmen), 2 (uyumlu). Her soruda yalnızca o soruyla ilgili maddeler gösterilir (1 ile 4 madde arası); "Kültürel varsayımlardan kaçınma" her soruda vardır. Gösterilmeyen madde "konu dışı" sayılır, 0 puan anlamına gelmez.
 4. **Güvenlik:** Hastaya zarar verebilecek bir bilgi varsa "Evet" seçip kısaca açıklayın.
 5. **DISCERN:** Sekiz madde, 1 (hiç) ile 5 (tam) arası.
 

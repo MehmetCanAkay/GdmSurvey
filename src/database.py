@@ -33,6 +33,7 @@ from sqlalchemy.pool import NullPool
 from src.domain import (
     BLINDED_RESPONSE_KEYS,
     CAS_ITEMS,
+    cas_percent,
     DISCERN_ITEMS,
     EvaluatorRole,
     EvaluatorSeed,
@@ -112,6 +113,8 @@ class Question(Base):
     axis = Column(String(50), nullable=False)
     sub_theme = Column(String(200), nullable=False, default="")
     checklist_json = Column(Text, nullable=False, default="[]")
+    # Bu soruda puanlanan CAS anahtarları (CAS madde haritasından).
+    cas_items_json = Column(Text, nullable=False, default="[]")
 
     responses = relationship("Response", back_populates="question")
 
@@ -197,12 +200,15 @@ class Score(Base):
     checklist_json = Column(Text, nullable=False, default="{}")
     checklist_pct = Column(Float, nullable=True)
     checklist_weighted_pct = Column(Float, nullable=True)
-    cas_food = Column(Integer, nullable=False)
-    cas_religion = Column(Integer, nullable=False)
-    cas_health_system = Column(Integer, nullable=False)
-    cas_local = Column(Integer, nullable=False)
-    cas_cultural = Column(Integer, nullable=False)
+    # NULL: madde bu soruda puanlanmaz (eksik veri). 0 "başarısız" anlamına gelir.
+    cas_food = Column(Integer, nullable=True)
+    cas_religion = Column(Integer, nullable=True)
+    cas_health_system = Column(Integer, nullable=True)
+    cas_local = Column(Integer, nullable=True)
+    cas_cultural = Column(Integer, nullable=True)
     cas_total = Column(Integer, nullable=False)
+    cas_max = Column(Integer, nullable=False)
+    cas_pct = Column(Float, nullable=True)
     safety_issue = Column(Boolean, nullable=False, default=False)
     safety_note = Column(Text, nullable=True)
     discern_purpose = Column(Integer, nullable=False)
@@ -284,6 +290,7 @@ class QuestionRepository(_Repository):
         with self._session() as session:
             for item in questions:
                 checklist = json.dumps(item.get("checklist") or [], ensure_ascii=False)
+                cas_items = json.dumps(item.get("cas_items") or [], ensure_ascii=False)
                 existing = session.get(Question, item["id"])
                 if existing is None:
                     session.add(
@@ -294,6 +301,7 @@ class QuestionRepository(_Repository):
                             axis=item["axis"],
                             sub_theme=item.get("sub_theme") or "",
                             checklist_json=checklist,
+                            cas_items_json=cas_items,
                         )
                     )
                 else:
@@ -302,6 +310,7 @@ class QuestionRepository(_Repository):
                     existing.axis = item["axis"]
                     existing.sub_theme = item.get("sub_theme") or ""
                     existing.checklist_json = checklist
+                    existing.cas_items_json = cas_items
         return len(questions)
 
     def list_records(self) -> list[dict]:
@@ -751,9 +760,10 @@ def _apply_payload(score: Score, payload: dict) -> None:
     score.checklist_json = json.dumps(payload["checklist"], ensure_ascii=False)
     score.checklist_pct = payload["checklist_pct"]
     score.checklist_weighted_pct = payload["checklist_weighted_pct"]
-    for item in CAS_ITEMS:
-        setattr(score, item.key, payload[item.key])
-    score.cas_total = sum(payload[item.key] for item in CAS_ITEMS)
+    cas_values = {item.key: payload.get(item.key) for item in CAS_ITEMS}
+    for key, value in cas_values.items():
+        setattr(score, key, value)
+    score.cas_total, score.cas_max, score.cas_pct = cas_percent(cas_values)
     score.safety_issue = payload["safety_issue"]
     score.safety_note = payload["safety_note"]
     for item in DISCERN_ITEMS:
@@ -800,7 +810,24 @@ def _blinded_payload(response: Response, question: Question) -> dict:
         "question_text": question.question_text,
         "axis": question.axis,
         "checklist": checklist,
+        "cas_items": question_cas_items(question.cas_items_json),
     }
+
+
+def question_cas_items(raw: str | None) -> list[str]:
+    """
+    Sorunun CAS anahtarlarını CAS_ITEMS sırasıyla döndürür.
+
+    Kayıt boş veya bozuksa puanlama eksik CAS ile açılmasın diye hata fırlatır.
+    """
+    try:
+        keys = json.loads(raw or "[]")
+    except json.JSONDecodeError as exc:
+        raise RuntimeError("Sorunun CAS madde listesi okunamadı.") from exc
+    known = [item.key for item in CAS_ITEMS]
+    if not keys or any(key not in known for key in keys):
+        raise RuntimeError("Sorunun CAS madde listesi boş veya geçersiz; soruları --init ile yeniden yükleyin.")
+    return sorted(keys, key=known.index)
 
 
 def _sort_question_ids(records: list[dict]) -> list[dict]:

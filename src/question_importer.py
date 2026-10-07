@@ -2,6 +2,7 @@
 Excel soru havuzunu questions.json dosyasına dönüştürür.
 
 Soru metni, tip, eksen ve alt-tema her çalıştırmada Excel'den yenilenir.
+Soru başına puanlanacak CAS maddeleri CAS madde haritasından okunur.
 Aynı soru kimliği için daha önce elle girilmiş checklist maddeleri korunur.
 """
 
@@ -11,6 +12,9 @@ from pathlib import Path
 from openpyxl import load_workbook
 
 from src.domain import (
+    CAS_ALWAYS_SCORED,
+    CAS_ITEMS,
+    CAS_MAP_CODES,
     EXPECTED_GUIDELINE_QUESTION_COUNT,
     EXPECTED_PATIENT_QUESTION_COUNT,
     EXPECTED_QUESTION_COUNT,
@@ -20,24 +24,32 @@ from src.domain import (
 )
 
 EXCEL_FILENAME = "GDM_Final_30_Soru_Birlesik.xlsx"
+CAS_MAP_FILENAME = "GDM_CAS_Madde_Haritasi.xlsx"
 QUESTION_SHEET_MARK = "SORU NO"
 SUMMARY_AXIS_HEADER = "EKSEN"
+CAS_MAP_SHEET = "CAS Haritası"
+CAS_SCORED_MARK = "✓"
+CAS_SKIPPED_MARKS = {"–", "-", ""}
 
 
 class QuestionImportError(ValueError):
     """Excel içeriği çalışma kurallarına uymadığında fırlatılır."""
 
 
-def import_questions(excel_path: Path, json_path: Path) -> dict:
+def import_questions(excel_path: Path, json_path: Path, cas_map_path: Path | None = None) -> dict:
     """
-    Excel dosyasını okur, doğrular ve questions.json yazar.
+    Soru Excel'ini ve CAS madde haritasını okur, doğrular ve questions.json yazar.
 
+    CAS haritası verilmezse soru Excel'iyle aynı klasördeki dosya kullanılır.
     Dönüş değeri yazılan JSON gövdesidir.
     """
     excel_path = Path(excel_path)
     json_path = Path(json_path)
+    cas_map_path = Path(cas_map_path) if cas_map_path else excel_path.parent / CAS_MAP_FILENAME
     if not excel_path.exists():
         raise QuestionImportError(f"Excel dosyası bulunamadı: {excel_path}")
+    if not cas_map_path.exists():
+        raise QuestionImportError(f"CAS madde haritası bulunamadı: {cas_map_path}")
 
     workbook = load_workbook(excel_path, read_only=True, data_only=True)
     try:
@@ -45,13 +57,16 @@ def import_questions(excel_path: Path, json_path: Path) -> dict:
         summary = _read_summary(workbook)
     finally:
         workbook.close()
+    cas_map = read_cas_map(cas_map_path)
 
     _validate(questions, summary)
+    _validate_cas_map(questions, cas_map)
     preserved = _existing_checklists(json_path)
     for question in questions:
+        question["cas_items"] = cas_map[question["id"]]
         question["checklist"] = preserved.get(question["id"], [])
 
-    payload = {"source": excel_path.name, "questions": questions}
+    payload = {"source": excel_path.name, "cas_source": cas_map_path.name, "questions": questions}
     json_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
@@ -182,6 +197,75 @@ def _validate(questions: list[dict], summary: dict[str, dict]) -> None:
         raise QuestionImportError("\n".join(problems))
 
 
+def read_cas_map(cas_map_path: Path) -> dict[str, list[str]]:
+    """
+    CAS madde haritasını soru kimliği -> puanlanan CAS anahtarları sözlüğüne çevirir.
+
+    Hücrede ✓ puanlanır, – puanlanmaz demektir. Başka değer hata sayılır.
+    Anahtarlar CAS_ITEMS sırasıyla döner.
+    """
+    workbook = load_workbook(cas_map_path, read_only=True, data_only=True)
+    try:
+        if CAS_MAP_SHEET not in workbook.sheetnames:
+            raise QuestionImportError(f"CAS haritasında '{CAS_MAP_SHEET}' sayfası yok.")
+        rows = list(workbook[CAS_MAP_SHEET].iter_rows(values_only=True))
+    finally:
+        workbook.close()
+
+    header_index = None
+    for index, row in enumerate(rows):
+        if row and _cell_text(row[0]) == "Soru":
+            header_index = index
+            break
+    if header_index is None:
+        raise QuestionImportError("CAS haritasında 'Soru' başlığı bulunamadı.")
+    header = [_cell_text(value) for value in rows[header_index]]
+    code_columns = {}
+    for code in CAS_MAP_CODES:
+        if code not in header:
+            raise QuestionImportError(f"CAS haritasında {code} sütunu yok.")
+        code_columns[code] = header.index(code)
+
+    order = [item.key for item in CAS_ITEMS]
+    mapping: dict[str, list[str]] = {}
+    problems: list[str] = []
+    for row in rows[header_index + 1 :]:
+        question_id = _cell_text(row[0]) if row else ""
+        if not question_id or question_id.casefold() == "toplam":
+            continue
+        if question_id in mapping:
+            problems.append(f"CAS haritasında tekrarlanan soru: {question_id}")
+            continue
+        keys = []
+        for code, column in code_columns.items():
+            mark = _cell_text(row[column]) if column < len(row) else ""
+            if mark == CAS_SCORED_MARK:
+                keys.append(CAS_MAP_CODES[code])
+            elif mark not in CAS_SKIPPED_MARKS:
+                problems.append(f"CAS haritası {question_id}/{code}: tanınmayan değer '{mark}'")
+        mapping[question_id] = sorted(keys, key=order.index)
+    if problems:
+        raise QuestionImportError("\n".join(problems))
+    return mapping
+
+
+def _validate_cas_map(questions: list[dict], cas_map: dict[str, list[str]]) -> None:
+    """CAS haritasının soru havuzuyla aynı kimlikleri taşıdığını ve kültürel varsayım maddesini her soruda içerdiğini denetler."""
+    problems: list[str] = []
+    question_ids = [question["id"] for question in questions]
+    missing = [question_id for question_id in question_ids if question_id not in cas_map]
+    extra = sorted(set(cas_map) - set(question_ids))
+    if missing:
+        problems.append(f"CAS haritasında olmayan sorular: {', '.join(missing)}")
+    if extra:
+        problems.append(f"Soru havuzunda olmayan CAS satırları: {', '.join(extra)}")
+    for question_id in question_ids:
+        if question_id in cas_map and CAS_ALWAYS_SCORED not in cas_map[question_id]:
+            problems.append(f"{question_id}: kültürel varsayım maddesi (M5) her soruda puanlanmalı.")
+    if problems:
+        raise QuestionImportError("\n".join(problems))
+
+
 def _existing_checklists(json_path: Path) -> dict[str, list]:
     """Var olan JSON dosyasındaki geçerli checklist listelerini okur."""
     if not json_path.exists():
@@ -280,7 +364,7 @@ def _row_empty(row) -> bool:
 
 
 def main() -> None:
-    """Komut satırından Excel'i questions.json dosyasına dönüştürür."""
+    """Komut satırından soru Excel'ini ve CAS haritasını questions.json dosyasına dönüştürür."""
     root = Path(__file__).resolve().parent.parent
     payload = import_questions(
         root / "data" / EXCEL_FILENAME,

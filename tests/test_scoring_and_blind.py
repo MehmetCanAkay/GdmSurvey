@@ -20,7 +20,7 @@ from src.database import (
     Score,
     ScoreRepository,
 )
-from src.domain import BLINDED_RESPONSE_KEYS, CAS_ITEMS, DISCERN_ITEMS, ScoreDraft, default_evaluators
+from src.domain import BLINDED_RESPONSE_KEYS, DISCERN_ITEMS, ScoreDraft, default_evaluators
 
 
 class StudyRepositoryTests(unittest.TestCase):
@@ -64,9 +64,9 @@ class StudyRepositoryTests(unittest.TestCase):
         with self.assertRaises(IntegrityError):
             responses.add("Q1", "M1", 1, "İkinci.", 10, 20, "gpt-test")
         responses.assign_blind_codes(seed=7, expected_count=1)
-        ScoringService(ScoreRepository(self.factory)).submit(_draft(1), [])
+        ScoringService(ScoreRepository(self.factory)).submit(_draft(1), [], Q1_CAS)
         with self.assertRaises(ScoringValidationError):
-            ScoringService(ScoreRepository(self.factory)).submit(_draft(1), [])
+            ScoringService(ScoreRepository(self.factory)).submit(_draft(1), [], Q1_CAS)
 
     def test_weighted_checklist_is_stored(self) -> None:
         """Kritik madde (3) işaretli, diğer madde (1) boş: ağırlıksız %50, ağırlıklı %75."""
@@ -87,7 +87,7 @@ class StudyRepositoryTests(unittest.TestCase):
             safety_note=None,
             discern=base.discern,
         )
-        ScoringService(ScoreRepository(self.factory)).submit(draft, items)
+        ScoringService(ScoreRepository(self.factory)).submit(draft, items, Q1_CAS)
         session = self.factory()
         try:
             score = session.query(Score).one()
@@ -130,8 +130,14 @@ class StudyRepositoryTests(unittest.TestCase):
         evaluators = EvaluatorRepository(self.factory)
         first = ResponseService(responses, scores, evaluators).next_unscored("E4")
         ScoringService(scores).submit(
-            ScoreDraft(**{**_draft(first["response_id"]).__dict__, "evaluator_id": "E4"}),
+            ScoreDraft(
+                **{
+                    **_draft(first["response_id"], first["cas_items"]).__dict__,
+                    "evaluator_id": "E4",
+                }
+            ),
             first["checklist"],
+            first["cas_items"],
         )
         summary = ProgressService(responses, scores, evaluators).summary("E4")
         self.assertEqual(summary["total_responses"], 4)
@@ -165,7 +171,7 @@ class StudyRepositoryTests(unittest.TestCase):
             safety_note=None,
             discern=original.discern,
         )
-        service.submit(original, items)
+        service.submit(original, items, Q1_CAS)
         session = self.factory()
         try:
             stored = session.query(Score).one()
@@ -180,12 +186,13 @@ class StudyRepositoryTests(unittest.TestCase):
                 evaluator_id="E1",
                 gqs=1,
                 checklist={"a": False, "b": False},
-                cas={item.key: 0 for item in CAS_ITEMS},
+                cas={key: 0 for key in Q1_CAS},
                 safety_issue=True,
                 safety_note="Düzeltildi",
                 discern={item.key: 1 for item in DISCERN_ITEMS},
             ),
             items,
+            Q1_CAS,
         )
         session = self.factory()
         try:
@@ -196,6 +203,9 @@ class StudyRepositoryTests(unittest.TestCase):
             self.assertEqual(score.evaluated_at, evaluated_at)
             self.assertEqual(score.gqs, 1)
             self.assertEqual(score.cas_total, 0)
+            self.assertEqual(score.cas_max, 4)
+            self.assertEqual(score.cas_pct, 0.0)
+            self.assertIsNone(score.cas_religion)
             self.assertEqual(score.discern_total, len(DISCERN_ITEMS))
             self.assertEqual(score.checklist_pct, 0.0)
             self.assertEqual(score.safety_note, "Düzeltildi")
@@ -207,14 +217,15 @@ class StudyRepositoryTests(unittest.TestCase):
         responses = ResponseRepository(self.factory)
         responses.add("Q1", "M1", 1, "Yanıt metni.", 10, 20, "gpt-test")
         service = ScoringService(ScoreRepository(self.factory))
-        service.submit(_draft(1), [])
+        service.submit(_draft(1), [], Q1_CAS)
         with self.assertRaises(ScoringValidationError):
             service.update(
                 ScoreDraft(**{**_draft(1).__dict__, "evaluator_id": "E2"}),
                 [],
+                Q1_CAS,
             )
         with self.assertRaises(ScoringValidationError):
-            service.update(ScoreDraft(**{**_draft(1).__dict__, "gqs": 9}), [])
+            service.update(ScoreDraft(**{**_draft(1).__dict__, "gqs": 9}), [], Q1_CAS)
         session = self.factory()
         try:
             score = session.query(Score).one()
@@ -236,8 +247,14 @@ class StudyRepositoryTests(unittest.TestCase):
         kitchen = service.next_unscored("E4")
         self.assertEqual(kitchen["axis"], "mutfak")
         scoring.submit(
-            ScoreDraft(**{**_draft(kitchen["response_id"]).__dict__, "evaluator_id": "E4"}),
+            ScoreDraft(
+                **{
+                    **_draft(kitchen["response_id"], kitchen["cas_items"]).__dict__,
+                    "evaluator_id": "E4",
+                }
+            ),
             kitchen["checklist"],
+            kitchen["cas_items"],
         )
         listed = scores.list_scored_for_evaluator("E4")
         self.assertEqual(set(listed[0]), {"response_id", "blind_code", "axis", "gqs"})
@@ -250,7 +267,7 @@ class StudyRepositoryTests(unittest.TestCase):
             item["response_id"]
             for item in responses.list_blinded_for_axes(["lohusa"])
         )
-        scoring.submit(_draft(lohusa_id), [])
+        scoring.submit(_draft(lohusa_id, Q3_CAS), [], Q3_CAS)
         self.assertIsNone(service.scored_for_edit("E4", lohusa_id))
 
     def test_safety_note_is_required(self) -> None:
@@ -267,7 +284,48 @@ class StudyRepositoryTests(unittest.TestCase):
             discern=draft.discern,
         )
         with self.assertRaises(ScoringValidationError):
-            ScoringService(ScoreRepository(self.factory)).submit(draft, [])
+            ScoringService(ScoreRepository(self.factory)).submit(draft, [], Q1_CAS)
+
+    def test_cas_scores_only_question_items(self) -> None:
+        """Puanlanmayan CAS maddesi NULL kalır; yüzde yalnızca puanlanan maddelerden hesaplanır."""
+        responses = ResponseRepository(self.factory)
+        responses.add("Q1", "M1", 1, "Yanıt metni.", 10, 20, "gpt-test")
+        responses.assign_blind_codes(seed=7, expected_count=1)
+        blinded = responses.list_blinded_for_axes(["mutfak"])[0]
+        self.assertEqual(blinded["cas_items"], Q1_CAS)
+        draft = ScoreDraft(**{**_draft(1).__dict__, "cas": {"cas_food": 1, "cas_cultural": 2}})
+        ScoringService(ScoreRepository(self.factory)).submit(draft, [], blinded["cas_items"])
+        session = self.factory()
+        try:
+            score = session.query(Score).one()
+            self.assertEqual(score.cas_food, 1)
+            self.assertEqual(score.cas_cultural, 2)
+            for key in ("cas_religion", "cas_health_system", "cas_local"):
+                self.assertIsNone(getattr(score, key))
+            self.assertEqual(score.cas_total, 3)
+            self.assertEqual(score.cas_max, 4)
+            self.assertEqual(score.cas_pct, 75.0)
+        finally:
+            session.close()
+
+    def test_cas_rejects_missing_or_foreign_items(self) -> None:
+        """Sorunun CAS maddesi boşsa veya soru dışı maddeye değer girildiyse kayıt yapılmaz."""
+        service = ScoringService(ScoreRepository(self.factory))
+        missing = ScoreDraft(**{**_draft(1).__dict__, "cas": {"cas_food": 2}})
+        with self.assertRaises(ScoringValidationError):
+            service.submit(missing, [], Q1_CAS)
+        foreign = ScoreDraft(
+            **{**_draft(1).__dict__, "cas": {"cas_food": 2, "cas_cultural": 2, "cas_religion": 0}}
+        )
+        with self.assertRaises(ScoringValidationError):
+            service.submit(foreign, [], Q1_CAS)
+        with self.assertRaises(ScoringValidationError):
+            service.submit(_draft(1), [], [])
+
+
+Q1_CAS = ["cas_food", "cas_cultural"]
+Q2_CAS = ["cas_religion", "cas_cultural"]
+Q3_CAS = ["cas_cultural"]
 
 
 def _question_file() -> Path:
@@ -282,6 +340,7 @@ def _question_file() -> Path:
                 "sub_theme": "Deneme",
                 "text": "Soru bir",
                 "checklist": [{"id": "c1", "label": "Madde", "category": "Kritik"}],
+                "cas_items": Q1_CAS,
             },
             {
                 "id": "Q2",
@@ -290,6 +349,7 @@ def _question_file() -> Path:
                 "sub_theme": "Deneme",
                 "text": "Soru iki",
                 "checklist": [],
+                "cas_items": Q2_CAS,
             },
             {
                 "id": "Q3",
@@ -298,6 +358,7 @@ def _question_file() -> Path:
                 "sub_theme": "Deneme",
                 "text": "Soru üç",
                 "checklist": [],
+                "cas_items": Q3_CAS,
             },
             {
                 "id": "K1",
@@ -306,6 +367,7 @@ def _question_file() -> Path:
                 "sub_theme": "Deneme",
                 "text": "Vaka",
                 "checklist": [],
+                "cas_items": Q1_CAS,
             },
         ],
     }
@@ -317,14 +379,14 @@ def _question_file() -> Path:
     return Path(handle.name)
 
 
-def _draft(response_id: int) -> ScoreDraft:
-    """Geçerli bir örnek puan üretir."""
+def _draft(response_id: int, cas_items: list[str] = Q1_CAS) -> ScoreDraft:
+    """Verilen CAS maddeleriyle (varsayılan Q1) geçerli bir örnek puan üretir."""
     return ScoreDraft(
         response_id=response_id,
         evaluator_id="E1",
         gqs=4,
         checklist={},
-        cas={item.key: 2 for item in CAS_ITEMS},
+        cas={key: 2 for key in cas_items},
         safety_issue=False,
         safety_note=None,
         discern={item.key: 3 for item in DISCERN_ITEMS},

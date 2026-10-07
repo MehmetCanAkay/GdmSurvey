@@ -32,6 +32,37 @@ class QuestionImporterTests(unittest.TestCase):
             10,
         )
 
+    def test_every_question_states_gdm_context(self) -> None:
+        """Her soru metni gebelik şekeri bağlamını açıkça içerir; model bunu tahmin etmek zorunda kalmaz."""
+        with tempfile.TemporaryDirectory() as folder:
+            payload = import_questions(EXCEL, Path(folder) / "questions.json")
+        markers = ("gebelik şeker", "gdm")
+        missing = [
+            question["id"]
+            for question in payload["questions"]
+            if not any(marker in question["text"].casefold() for marker in markers)
+        ]
+        self.assertEqual(missing, [])
+
+    def test_cas_items_follow_map(self) -> None:
+        """CAS haritasındaki işaretler soru başına anahtar listesine dönüşür; M5 her soruda vardır."""
+        with tempfile.TemporaryDirectory() as folder:
+            payload = import_questions(EXCEL, Path(folder) / "questions.json")
+        by_id = {question["id"]: question["cas_items"] for question in payload["questions"]}
+        self.assertEqual(by_id["Q1"], ["cas_food", "cas_cultural"])
+        self.assertEqual(by_id["Q13"], ["cas_cultural"])
+        self.assertEqual(by_id["Q15"], ["cas_health_system", "cas_cultural"])
+        self.assertEqual(by_id["K5"], ["cas_food", "cas_religion", "cas_local", "cas_cultural"])
+        self.assertTrue(all("cas_cultural" in items for items in by_id.values()))
+        counts = {
+            key: sum(1 for items in by_id.values() if key in items)
+            for key in ("cas_food", "cas_religion", "cas_health_system", "cas_local", "cas_cultural")
+        }
+        self.assertEqual(
+            counts,
+            {"cas_food": 18, "cas_religion": 8, "cas_health_system": 5, "cas_local": 7, "cas_cultural": 30},
+        )
+
     def test_existing_checklist_is_preserved(self) -> None:
         """Aynı soru kimliğindeki checklist, Excel yenilense de durur."""
         checklist = [{"id": "c1", "label": "175 g karbonhidrat", "category": "Kritik"}]

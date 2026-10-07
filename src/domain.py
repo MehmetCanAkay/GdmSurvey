@@ -87,34 +87,57 @@ class ScaleItem:
     description: str
 
 
-# Kültürel uygunluk (0-2). Eski "içerik doğruluğu" maddelerinin yerini alır.
+# Kültürel uygunluk (0-2). Sıra, data/GDM_CAS_Madde_Haritasi.xlsx içindeki M1-M5 sırasıdır.
+# Her soruda yalnızca haritada işaretli maddeler puanlanır; diğerleri eksik veridir, 0 değildir.
 CAS_ITEMS: tuple[ScaleItem, ...] = (
     ScaleItem(
         "cas_food",
-        "Beslenme ve mutfak",
-        "Yöresel yiyecekler, öğün düzeni ve mutfak pratikleri Türkiye bağlamına uyuyor mu?",
+        "Türk gıda terimleri",
+        "Öneriler Türk mutfağından somut yiyecek ve öğün örnekleriyle verilmiş mi?",
     ),
     ScaleItem(
         "cas_religion",
-        "Dini uygulamalar",
-        "Oruç, sahur ve iftar gibi dini uygulamalar doğru ve saygılı ele alınmış mı?",
+        "Dini bağlam",
+        "Oruç, bayram, mevlit gibi dini durum doğru ve saygılı ele alınmış mı; muafiyet ve uygulanabilir strateji verilmiş mi?",
     ),
     ScaleItem(
         "cas_health_system",
-        "Sağlık sistemi",
-        "SGK, aile hekimi, eczane ve sevk süreçleri Türkiye sağlık sistemine uyuyor mu?",
+        "Türkiye sağlık sistemi",
+        "SGK, aile hekimi, eczane, ilaç ve cihaz temini Türkiye'deki işleyişe uygun anlatılmış mı?",
     ),
     ScaleItem(
         "cas_local",
-        "Yerel koşullar",
-        "İklim, seyahat, ürün erişimi ve günlük yaşam koşulları yerelde geçerli mi?",
+        "Yerel uygulama / halk inanışı",
+        "Sorudaki gelenek veya halk inanışı (şerbet, 'bebek aç kalır', aşerme-leke vb.) tanınıp doğru ve saygılı ele alınmış mı?",
     ),
     ScaleItem(
         "cas_cultural",
-        "Aile ve sosyal pratikler",
-        "Misafirlik, aile baskısı ve aşerme gibi kültürel durumlar uygun ele alınmış mı?",
+        "Kültürel varsayımlardan kaçınma",
+        "Yanıt Batı-merkezli veya Türkiye'ye uymayan varsayımlardan kaçınıyor mu?",
     ),
 )
+
+# CAS haritasındaki madde kodlarının (M1-M5) şema anahtarlarına eşlemesi.
+CAS_MAP_CODES: dict[str, str] = {
+    f"M{index}": item.key for index, item in enumerate(CAS_ITEMS, start=1)
+}
+
+# Haritada her soruda puanlanan madde.
+CAS_ALWAYS_SCORED = "cas_cultural"
+
+
+def cas_percent(values: dict[str, int | None]) -> tuple[int, int, float | None]:
+    """
+    Puanlanan CAS maddelerinden toplam, maksimum ve yüzde hesaplar.
+
+    None değerler puanlanmamış maddedir ve paydaya girmez.
+    CAS (%) = alınan puan ÷ (puanlanan madde sayısı × 2) × 100.
+    """
+    scored = [value for value in values.values() if value is not None]
+    total = sum(scored)
+    maximum = len(scored) * 2
+    percent = round(total / maximum * 100, 2) if maximum else None
+    return total, maximum, percent
 
 # Seçilmiş 8 DISCERN maddesi. Toplam 8-40 aralığındadır.
 DISCERN_ITEMS: tuple[ScaleItem, ...] = (
@@ -191,6 +214,7 @@ BLINDED_RESPONSE_KEYS = frozenset(
         "question_text",
         "axis",
         "checklist",
+        "cas_items",
     }
 )
 
@@ -214,7 +238,8 @@ class ScoreDraft:
     evaluator_id: str
     gqs: int
     checklist: dict[str, bool]
-    cas: dict[str, int]
+    # Yalnızca sorunun CAS maddeleri; puanlanmayan madde anahtarı ya hiç yoktur ya None'dır.
+    cas: dict[str, int | None]
     safety_issue: bool
     safety_note: str | None
     discern: dict[str, int]

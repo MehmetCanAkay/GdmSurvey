@@ -103,12 +103,12 @@ discern_summary <- scores_df %>%
 cat("\nDISCERN Puanları:\n")
 print(discern_summary)
 
-# Model bazında CAS
+# Model bazında CAS (%). Toplam puan soru başına farklı maksimuma sahiptir; yüzde kullanılır.
 cas_summary <- scores_df %>%
   group_by(provider) %>%
   summarise(
-    median_cas = median(cas_total, na.rm = TRUE),
-    iqr_cas = IQR(cas_total, na.rm = TRUE),
+    median_cas = median(cas_pct, na.rm = TRUE),
+    iqr_cas = IQR(cas_pct, na.rm = TRUE),
     .groups = "drop"
   )
 
@@ -180,7 +180,7 @@ if (nrow(discern_wide) >= 3) {
 # CAS için Friedman
 cas_wide <- scores_df %>%
   group_by(question_id, provider) %>%
-  summarise(mean_cas = mean(cas_total, na.rm = TRUE), .groups = "drop") %>%
+  summarise(mean_cas = mean(cas_pct, na.rm = TRUE), .groups = "drop") %>%
   pivot_wider(names_from = provider, values_from = mean_cas) %>%
   na.omit()
 
@@ -284,13 +284,13 @@ if (ncol(kappa_data) >= 2 && nrow(kappa_data) >= 3) {
 
 cat("\n=== CRONBACH ALFA ===\n")
 
-# CAS maddeleri için iç tutarlılık
+# CAS maddeleri için iç tutarlılık. Puanlanmayan madde NA'dır (soru dışı), 0 değildir;
+# bu yüzden satır silinmez, psych::alpha ikili tam gözlemlerle hesaplar.
 cas_items <- scores_df %>%
-  select(cas_food, cas_religion, cas_health_system, cas_local, cas_cultural) %>%
-  na.omit()
+  select(cas_food, cas_religion, cas_health_system, cas_local, cas_cultural)
 
 if (nrow(cas_items) >= 5) {
-  alpha_result <- psych::alpha(cas_items)
+  alpha_result <- psych::alpha(cas_items, na.rm = TRUE, warnings = FALSE)
   cat("\nCAS Cronbach Alfa:\n")
   cat(sprintf("  Raw alpha: %.3f\n", alpha_result$total$raw_alpha))
   cat(sprintf("  Std alpha: %.3f\n", alpha_result$total$std.alpha))
@@ -311,9 +311,9 @@ for (ax in axes) {
   cat(sprintf("  GQS medyan: %.1f (IQR: %.1f)\n",
               median(subset$gqs, na.rm = TRUE),
               IQR(subset$gqs, na.rm = TRUE)))
-  cat(sprintf("  CAS medyan: %.1f (IQR: %.1f)\n",
-              median(subset$cas_total, na.rm = TRUE),
-              IQR(subset$cas_total, na.rm = TRUE)))
+  cat(sprintf("  CAS %% medyan: %.1f (IQR: %.1f)\n",
+              median(subset$cas_pct, na.rm = TRUE),
+              IQR(subset$cas_pct, na.rm = TRUE)))
 }
 
 # =============================================================================

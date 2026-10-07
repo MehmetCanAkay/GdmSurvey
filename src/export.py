@@ -23,6 +23,8 @@ SCORE_VALUE_COLUMNS = [
     "cas_local",
     "cas_cultural",
     "cas_total",
+    "cas_max",
+    "cas_pct",
     "safety_issue",
     "discern_purpose",
     "discern_relevance",
@@ -102,9 +104,12 @@ def _scores_long(scores: pd.DataFrame) -> pd.DataFrame:
         identity["evaluator_id"] = record["evaluator_id"]
         rows.append({**identity, "scale": "GQS", "item": "gqs", "value": record["gqs"], "safety_note": None})
         rows.extend(_checklist_rows(record, identity))
+        # Bu soruda puanlanmayan CAS maddesi eksik veridir; 0 satırı olarak yazılmaz.
         for item in CAS_ITEMS:
-            rows.append(_point(identity, "CAS", item.key, record[item.key]))
-        rows.append(_point(identity, "CAS", "cas_total", record["cas_total"]))
+            if not pd.isna(record.get(item.key)):
+                rows.append(_point(identity, "CAS", item.key, record[item.key]))
+        for summary in ("cas_total", "cas_max", "cas_pct"):
+            rows.append(_point(identity, "CAS", summary, record.get(summary)))
         rows.append(
             {
                 **identity,
@@ -165,7 +170,7 @@ def _summary_sheet(
     """Grup ve ölçüm başına n, ortalama, SS, medyan ve IQR hesaplar."""
     metrics = metrics or [
         "gqs",
-        "cas_total",
+        "cas_pct",
         "discern_total",
         "checklist_pct",
         "checklist_weighted_pct",

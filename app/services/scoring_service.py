@@ -17,27 +17,34 @@ class ScoringService:
         """Puan repository'sini dışarıdan alır."""
         self._scores = scores
 
-    def submit(self, draft: ScoreDraft, checklist_items: list[dict]) -> int:
+    def submit(self, draft: ScoreDraft, checklist_items: list[dict], cas_items: list[str]) -> int:
         """
         Geçerli puanı kaydeder ve score_id döndürür.
 
         checklist_items sorunun kapsamlılık maddeleridir. weight yoksa 1 sayılır.
+        cas_items sorunun puanlanan CAS anahtarlarıdır; diğer CAS maddeleri boş kaydedilir.
         """
         try:
-            return self._scores.add(self._build_payload(draft, checklist_items))
+            return self._scores.add(self._build_payload(draft, checklist_items, cas_items))
         except IntegrityError as exc:
             raise ScoringValidationError("Bu yanıtı daha önce puanladınız.") from exc
 
-    def update(self, draft: ScoreDraft, checklist_items: list[dict]) -> None:
+    def update(self, draft: ScoreDraft, checklist_items: list[dict], cas_items: list[str]) -> None:
         """Mevcut puanın üzerine yazar. Kayıt yoksa hata fırlatır."""
-        payload = self._build_payload(draft, checklist_items)
+        payload = self._build_payload(draft, checklist_items, cas_items)
         if not self._scores.update(payload):
             raise ScoringValidationError("Düzeltilecek puan bulunamadı.")
 
-    def _build_payload(self, draft: ScoreDraft, checklist_items: list[dict]) -> dict:
+    def _build_payload(
+        self,
+        draft: ScoreDraft,
+        checklist_items: list[dict],
+        cas_items: list[str],
+    ) -> dict:
         """Doğrulanmış puanı repository'nin beklediği sözlüğe çevirir."""
         expected_checklist_ids = [item["id"] for item in checklist_items]
-        self._validate(draft, expected_checklist_ids)
+        applicable_cas = applicable_cas_items(cas_items)
+        self._validate(draft, expected_checklist_ids, applicable_cas)
         checklist = {
             item_id: bool(draft.checklist.get(item_id, False))
             for item_id in expected_checklist_ids
@@ -56,17 +63,25 @@ class ScoringService:
             "safety_issue": draft.safety_issue,
             "safety_note": note,
         }
+        applicable_keys = {item.key for item in applicable_cas}
         for item in CAS_ITEMS:
-            payload[item.key] = draft.cas[item.key]
+            payload[item.key] = draft.cas[item.key] if item.key in applicable_keys else None
         for item in DISCERN_ITEMS:
             payload[item.key] = draft.discern[item.key]
         return payload
 
-    def _validate(self, draft: ScoreDraft, expected_checklist_ids: list[str]) -> None:
-        """Aralık, eksik madde ve güvenlik notu kurallarını denetler."""
+    def _validate(self, draft: ScoreDraft, expected_checklist_ids: list[str], applicable_cas) -> None:
+        """Aralık, eksik madde, soru dışı CAS maddesi ve güvenlik notu kurallarını denetler."""
         if draft.gqs not in range(1, 6):
             raise ScoringValidationError("GQS 1 ile 5 arasında olmalıdır.")
-        self._require_scale(draft.cas, CAS_ITEMS, 0, 2, "CAS")
+        self._require_scale(draft.cas, applicable_cas, 0, 2, "CAS")
+        applicable_keys = {item.key for item in applicable_cas}
+        extra_cas = [
+            key for key, value in draft.cas.items()
+            if key not in applicable_keys and value is not None
+        ]
+        if extra_cas:
+            raise ScoringValidationError("Bu soruda puanlanmayan bir CAS maddesine değer girilmiş.")
         self._require_scale(draft.discern, DISCERN_ITEMS, 1, 5, "DISCERN")
         if draft.safety_issue and not (draft.safety_note or "").strip():
             raise ScoringValidationError("Güvenlik sorunu varsa açıklama zorunludur.")
@@ -84,6 +99,18 @@ class ScoringService:
                 raise ScoringValidationError(
                     f"{name} / {item.label} değeri {low} ile {high} arasında olmalıdır."
                 )
+
+
+def applicable_cas_items(cas_items: list[str]) -> tuple:
+    """
+    Sorunun CAS anahtarlarını CAS_ITEMS sırasındaki madde tanımlarına çevirir.
+
+    Boş liste veya bilinmeyen anahtar, eksik CAS ile puan kaydedilmesin diye hata sayılır.
+    """
+    known = {item.key for item in CAS_ITEMS}
+    if not cas_items or any(key not in known for key in cas_items):
+        raise ScoringValidationError("Bu sorunun CAS madde listesi tanımsız.")
+    return tuple(item for item in CAS_ITEMS if item.key in cas_items)
 
 
 def checklist_scores(items: list[dict], checked: dict[str, bool]) -> tuple[float | None, float | None]:

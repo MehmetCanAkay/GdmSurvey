@@ -1,5 +1,6 @@
 {
   "source": "GDM_Final_30_Soru_Birlesik.xlsx",
+  "cas_source": "GDM_CAS_Madde_Haritasi.xlsx",
   "questions": [
     {
       "id": "Q1",
@@ -7,6 +8,10 @@
       "axis": "mutfak",
       "sub_theme": "Genel beslenme düzeni ve ekmek/tokluk",
       "text": "Gebelik şekerim var, günlük beslenmemi nasıl düzenlemem gerekir? Ekmek, makarna gibi karbonhidratlar şekerimi yükseltiyor ama doymuyorum, neyle doyabilirim, hangi yiyeceklerden uzak durmalıyım?",
+      "cas_items": [
+        "cas_food",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q1-1",
@@ -57,7 +62,11 @@
       "type": "hasta_turevli",
       "axis": "mutfak",
       "sub_theme": "Karbonhidrat sayımı ve güvenli seçim",
-      "text": "Karbonhidratı nasıl ve ne kadar tüketebilirim, hangileri daha güvenli?",
+      "text": "Gebelik şekerim var. Karbonhidratı nasıl ve ne kadar tüketebilirim, hangileri daha güvenli?",
+      "cas_items": [
+        "cas_food",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q2-1",
@@ -102,7 +111,11 @@
       "type": "hasta_turevli",
       "axis": "mutfak",
       "sub_theme": "Tatlı/Şeker isteği yönetimi",
-      "text": "Canım tatlı çektiğinde ne yapabilirim? Her akşam dondurma yesem, arkasından yürüyüş yapsam yiyebilir miyim? Bir kare çikolata veya küçük bir kase puding sıkıntı oluşturur mu?",
+      "text": "Gebelik şekerim var. Canım tatlı çektiğinde ne yapabilirim? Her akşam dondurma yesem, arkasından yürüyüş yapsam yiyebilir miyim? Bir kare çikolata veya küçük bir kase puding sıkıntı oluşturur mu?",
+      "cas_items": [
+        "cas_food",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q3-1",
@@ -147,7 +160,11 @@
       "type": "hasta_turevli",
       "axis": "mutfak",
       "sub_theme": "Meyve tüketimi",
-      "text": "Hangi meyveleri yiyebilirim, hangilerinin şekeri daha yüksek? Örneğin karpuzdan günde kaç dilim yiyebilirim?",
+      "text": "Gebelik şekerim var. Hangi meyveleri yiyebilirim, hangilerinin şekeri daha yüksek? Örneğin karpuzdan günde kaç dilim yiyebilirim?",
+      "cas_items": [
+        "cas_food",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q4-1",
@@ -192,7 +209,11 @@
       "type": "hasta_turevli",
       "axis": "mutfak",
       "sub_theme": "İçecek tercihleri",
-      "text": "Meyveli soda içebilir miyim? Şeker hastasıyken kramplarım için sade soda içemiyorum, meyveli olanı da şekerimi yükseltir mi?",
+      "text": "Gebelik şekerim var. Meyveli soda içebilir miyim? Kramplarım için sade soda içemiyorum, meyveli olanı da şekerimi yükseltir mi?",
+      "cas_items": [
+        "cas_food",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q5-1",
@@ -237,7 +258,12 @@
       "type": "hasta_turevli",
       "axis": "oruc",
       "sub_theme": "Sahur-iftar beslenme yeterlilik",
-      "text": "Oruçken sahurda ve iftarda yediklerim bebeğim için yeterli besini sağlar mı? İftardan sahura kadar çok yiyecek tüketemiyorum, uzun süre tok tutması için ne yiyebilirim?",
+      "text": "Gebelik şekerim var. Oruçken sahurda ve iftarda yediklerim bebeğim için yeterli besini sağlar mı? İftardan sahura kadar çok yiyecek tüketemiyorum, uzun süre tok tutması için ne yiyebilirim?",
+      "cas_items": [
+        "cas_food",
+        "cas_religion",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q6-1",
@@ -282,7 +308,11 @@
       "type": "hasta_turevli",
       "axis": "oruc",
       "sub_theme": "Uzun açlık ve bebek etkisi",
-      "text": "Oruç sırasında uzun süre aç kalmam kan şekeri dengemi bozar mı, bebeğime zarar verir mi? Herhangi bir şikayetim olmasa bile bebeğe zararı olur mu?",
+      "text": "Gebelik şekerim var. Oruç sırasında uzun süre aç kalmam kan şekeri dengemi bozar mı, bebeğime zarar verir mi? Herhangi bir şikayetim olmasa bile bebeğe zararı olur mu?",
+      "cas_items": [
+        "cas_religion",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q7-1",
@@ -327,7 +357,11 @@
       "type": "hasta_turevli",
       "axis": "oruc",
       "sub_theme": "Hipoglisemi ve oruç bozma",
-      "text": "Ramazan ayında 2 gün oruç tutabildim, baş dönmesi ve titreme oldu tutamadım, tutsam sorun olur muydu? Oruç tutarken aç kalırsam bayılır mıyım?",
+      "text": "Gebelik şekerim var. Ramazan ayında 2 gün oruç tutabildim, baş dönmesi ve titreme oldu tutamadım, tutsam sorun olur muydu? Oruç tutarken aç kalırsam bayılır mıyım?",
+      "cas_items": [
+        "cas_religion",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q8-1",
@@ -373,6 +407,10 @@
       "axis": "oruc",
       "sub_theme": "Genel oruç güvenliği",
       "text": "Gebelik şekerim varken oruç tutabilir miyim, tutmam bebeğe zarar verir mi?",
+      "cas_items": [
+        "cas_religion",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q9-1",
@@ -417,7 +455,11 @@
       "type": "hasta_turevli",
       "axis": "lohusa",
       "sub_theme": "Lohusalıkta şeker takibi ve diyet",
-      "text": "Lohusa döneminde şekere ne kadar dikkat etmeliyim, şeker takipleri ne kadar sürer, diyet devam eder mi? İstediğim tatlı ve yemekleri tüketebilir miyim?",
+      "text": "Hamileliğimde gebelik şekeri çıkmıştı, yeni doğum yaptım. Lohusa döneminde şekere ne kadar dikkat etmeliyim, şeker takipleri ne kadar sürer, diyet devam eder mi? İstediğim tatlı ve yemekleri tüketebilir miyim?",
+      "cas_items": [
+        "cas_food",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q10-1",
@@ -462,7 +504,12 @@
       "type": "hasta_turevli",
       "axis": "lohusa",
       "sub_theme": "Lohusa şerbeti ve geleneksel uygulamalar",
-      "text": "Yeni doğum yaptım, kaynanam sütüm artsın diye sürekli lohusa şerbeti içmem gerektiğini söylüyor ama ben zararlı olacağını düşünüyorum, içmeli miyim? Doğum sonrası yapılan lapa şekerimi yükseltir mi?",
+      "text": "Hamileliğimde gebelik şekeri çıkmıştı. Yeni doğum yaptım, kaynanam sütüm artsın diye sürekli lohusa şerbeti içmem gerektiğini söylüyor ama ben zararlı olacağını düşünüyorum, içmeli miyim? Doğum sonrası yapılan lapa şekerimi yükseltir mi?",
+      "cas_items": [
+        "cas_food",
+        "cas_local",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q11-1",
@@ -507,7 +554,12 @@
       "type": "hasta_turevli",
       "axis": "lohusa",
       "sub_theme": "Emzirme dönemi beslenme",
-      "text": "Emzirme döneminde şekerli besinler sütü arttırır mı?",
+      "text": "Hamileliğimde gebelik şekeri çıkmıştı, şimdi bebeğimi emziriyorum. Emzirme döneminde şekerli besinler sütü arttırır mı?",
+      "cas_items": [
+        "cas_food",
+        "cas_local",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q12-1",
@@ -552,7 +604,10 @@
       "type": "hasta_turevli",
       "axis": "lohusa",
       "sub_theme": "Doğum sonrası şekerin kalıcılığı",
-      "text": "Doğum yaptıktan sonra artık şeker hastası mı olacağım, yoksa doğumla geçecek mi? Şeker düzelsin diye sürekli spor yapıp hızla kilo mu vermem gerekir?",
+      "text": "Hamileliğimde gebelik şekeri çıkmıştı. Doğum yaptıktan sonra artık şeker hastası mı olacağım, yoksa doğumla geçecek mi? Şeker düzelsin diye sürekli spor yapıp hızla kilo mu vermem gerekir?",
+      "cas_items": [
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q13-1",
@@ -597,7 +652,10 @@
       "type": "hasta_turevli",
       "axis": "lohusa",
       "sub_theme": "Bebeğin ileride diyabet olma riski",
-      "text": "Ben şeker hastası olduğum için bebeğim de şeker hastası olacak mı, çocukta kalıcı olur mu?",
+      "text": "Hamileliğimde gebelik şekeri çıktığı için bebeğim de şeker hastası olacak mı, çocukta kalıcı olur mu?",
+      "cas_items": [
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q14-1",
@@ -642,7 +700,11 @@
       "type": "hasta_turevli",
       "axis": "saglik_sistemi",
       "sub_theme": "Şeker ölçüm cihazı ve SGK kapsamı",
-      "text": "Şeker tanısı aldım, şeker ölçüm cihazı yazıldı, SGK karşılıyor mu yoksa ben ne kadar ücretle satın alabilirim? Cihazım bozulursa sigortam karşılayacak mı?",
+      "text": "Gebelik şekeri tanısı aldım, şeker ölçüm cihazı yazıldı, SGK karşılıyor mu yoksa ben ne kadar ücretle satın alabilirim? Cihazım bozulursa sigortam karşılayacak mı?",
+      "cas_items": [
+        "cas_health_system",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q15-1",
@@ -687,7 +749,11 @@
       "type": "hasta_turevli",
       "axis": "saglik_sistemi",
       "sub_theme": "Stik/İnsülin temini ve ücret sorunları",
-      "text": "Şeker ölçümü için kullandığım stikler yetmedi, yazdırdım ama eczane süresi dolmadığı için para ile almam gerektiğini söyledi, ben de stikler yetsin diye sabahları açlık şekerimi ölçmeyi bıraktım, bu doğru mu? Sigortam yok, insülinleri de paralı mı alacağım?",
+      "text": "Gebelik şekerim var. Şeker ölçümü için kullandığım stikler yetmedi, yazdırdım ama eczane süresi dolmadığı için para ile almam gerektiğini söyledi, ben de stikler yetsin diye sabahları açlık şekerimi ölçmeyi bıraktım, bu doğru mu? Sigortam yok, insülinleri de paralı mı alacağım?",
+      "cas_items": [
+        "cas_health_system",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q16-1",
@@ -732,7 +798,11 @@
       "type": "hasta_turevli",
       "axis": "sosyal",
       "sub_theme": "Sosyal ortamda diyet uyumu",
-      "text": "Aile ve sosyal ortamda diyetime uymakta zorlanıyorum, nasıl denge kurabilirim?",
+      "text": "Gebelik şekerim var. Aile ve sosyal ortamda diyetime uymakta zorlanıyorum, nasıl denge kurabilirim?",
+      "cas_items": [
+        "cas_food",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q17-1",
@@ -777,7 +847,12 @@
       "type": "hasta_turevli",
       "axis": "sosyal",
       "sub_theme": "Misafirlik, bayram ve ikram",
-      "text": "Misafirlikte ısrar ediliyor, canım çeker gibi ne yiyebilirim ne kadar ölçekte? Bayramda tatlıyı fazla kaçırırsam nasıl telafi edebilirim, bebeğim zarar görmüş müdür?",
+      "text": "Gebelik şekerim var. Misafirlikte ısrar ediliyor, canım çeker gibi ne yiyebilirim ne kadar ölçekte? Bayramda tatlıyı fazla kaçırırsam nasıl telafi edebilirim, bebeğim zarar görmüş müdür?",
+      "cas_items": [
+        "cas_food",
+        "cas_religion",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q18-1",
@@ -822,7 +897,12 @@
       "type": "hasta_turevli",
       "axis": "sosyal",
       "sub_theme": "Aşerme ve canı çekme durumu",
-      "text": "Aşerdiğim yiyeceğin diyetimi bozduğunu bildiğim halde yiyebilir miyim? Yememem gereken bir besinin muadilini yemek yeterli gelmiyor, bir parça yesem çok sorun olur mu?",
+      "text": "Gebelik şekerim var. Aşerdiğim yiyeceğin diyetimi bozduğunu bildiğim halde yiyebilir miyim? Yememem gereken bir besinin muadilini yemek yeterli gelmiyor, bir parça yesem çok sorun olur mu?",
+      "cas_items": [
+        "cas_food",
+        "cas_local",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q19-1",
@@ -867,7 +947,12 @@
       "type": "hasta_turevli",
       "axis": "sosyal",
       "sub_theme": "Aile baskısı ve önerileri",
-      "text": "Diyet yaptığım için ailem sürekli bana bir şeyler yedirmeye çalışıyor, 'sen gebesin bebek aç kalır' diyor. Eşimin akrabaları da psikolojik baskı yapıyor. Kaynanam 'tatlı yemek istediğinde limon ye geçer' diyor, bu doğru mu?",
+      "text": "Gebelik şekerim olduğu için diyet yapıyorum, ailem sürekli bana bir şeyler yedirmeye çalışıyor, 'sen gebesin bebek aç kalır' diyor. Eşimin akrabaları da psikolojik baskı yapıyor. Kaynanam 'tatlı yemek istediğinde limon ye geçer' diyor, bu doğru mu?",
+      "cas_items": [
+        "cas_food",
+        "cas_local",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "Q20-1",
@@ -912,7 +997,11 @@
       "type": "klavuz_vaka",
       "axis": "mutfak",
       "sub_theme": "Tatlandırıcı kullanımı",
-      "text": "Komşularla gün yaparken çayın yanında tatlı yiyemiyorum. En azından markette satılan tatlandırıcılardan koysam olur mu? Hamilelikte tatlandırıcı kullanmak bebeğe zarar verir mi?",
+      "text": "Gebelik şekerim var. Komşularla gün yaparken çayın yanında tatlı yiyemiyorum. En azından markette satılan tatlandırıcılardan koysam olur mu? Hamilelikte tatlandırıcı kullanmak bebeğe zarar verir mi?",
+      "cas_items": [
+        "cas_food",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "K1-1",
@@ -957,7 +1046,12 @@
       "type": "klavuz_vaka",
       "axis": "mutfak",
       "sub_theme": "Yemek sonrası meyve tüketimi",
-      "text": "Kayınvalidem sürekli yemeklerden sonra meyve yemem gerektiğini, bebeğe faydası olacağını söyleyip duruyor. Bu şekerimi yükseltir mi, bebeğime zararı olur mu?",
+      "text": "Gebelik şekerim var. Kayınvalidem sürekli yemeklerden sonra meyve yemem gerektiğini, bebeğe faydası olacağını söyleyip duruyor. Bu şekerimi yükseltir mi, bebeğime zararı olur mu?",
+      "cas_items": [
+        "cas_food",
+        "cas_local",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "K2-1",
@@ -1003,6 +1097,11 @@
       "axis": "oruc",
       "sub_theme": "Diyet kontrollü GDM'de oruç riski",
       "text": "25 yaşındayım, 27 haftalık gebeyim. 25. haftada şeker yüklemesi yaptım, GDM çıktı. Şu an sadece diyetle takip oluyorum, insülin kullanmıyorum. Açlık şekerim genelde 88-92, tokluk 1. saatte 130-140 arasında. Ramazan'a 3 hafta var, oruç tutmak istiyorum. Tutmam ne kadar riskli, tutarsam neye dikkat etmem gerekir?",
+      "cas_items": [
+        "cas_food",
+        "cas_religion",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "K3-1",
@@ -1060,6 +1159,10 @@
       "axis": "oruc",
       "sub_theme": "İnsülin kullanan GDM'de oruç yönetimi",
       "text": "34 yaşındayım, 28 haftalık gebeyim. GDM tanısı aldım, günde iki kez insülin kullanıyorum (sabah ve akşam yemek öncesi). Ramazan başlıyor, oruç tutmak istiyorum. İnsülin kullanırken oruç tutmak mümkün mü, insülin dozlarımı nasıl ayarlamam gerekir, hangi durumlarda orucumu bozmalıyım?",
+      "cas_items": [
+        "cas_religion",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "K4-1",
@@ -1110,7 +1213,13 @@
       "type": "klavuz_vaka",
       "axis": "lohusa",
       "sub_theme": "Lohusa şerbeti ve postpartum şeker",
-      "text": "Doğum yapalı 40 gün oldu, bebeğimin mevlidi var ve büyüklerim süt yapsın diye sürekli lohusa şerbeti içmemi söylüyor. Şekerim düzelmiş midir, bu şerbeti içsem bana zararı olur mu?",
+      "text": "Hamileliğimde gebelik şekeri çıkmıştı. Doğum yapalı 40 gün oldu, bebeğimin mevlidi var ve büyüklerim süt yapsın diye sürekli lohusa şerbeti içmemi söylüyor. Şekerim düzelmiş midir, bu şerbeti içsem bana zararı olur mu?",
+      "cas_items": [
+        "cas_food",
+        "cas_religion",
+        "cas_local",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "K5-1",
@@ -1155,7 +1264,11 @@
       "type": "klavuz_vaka",
       "axis": "saglik_sistemi",
       "sub_theme": "İnsülin saklama ve seyahat",
-      "text": "İnsülin kullanmaya başladım. Haftaya bayram tatili için arabayla İzmir'den Adana'ya gideceğiz ve hava çok sıcak. Bu insülin kalemlerini yolda nasıl saklamam gerekiyor, bozulursa nasıl anlarım?",
+      "text": "Gebelik şekerim için insülin kullanmaya başladım. Haftaya bayram tatili için arabayla İzmir'den Adana'ya gideceğiz ve hava çok sıcak. Bu insülin kalemlerini yolda nasıl saklamam gerekiyor, bozulursa nasıl anlarım?",
+      "cas_items": [
+        "cas_health_system",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "K6-1",
@@ -1200,7 +1313,11 @@
       "type": "klavuz_vaka",
       "axis": "saglik_sistemi",
       "sub_theme": "Şeker ölçüm çubukları SGK kapsamı",
-      "text": "Günde 7 kere şekerimi ölçmem gerekiyormuş ama eczaneye gittiğimde cihazın ve ölçüm çubuklarının çok pahalı olduğunu gördüm. Sağlık ocağındaki aile hekimine bu şeker ölçüm çubuklarını yazdırsam SGK tamamını karşılıyor mu?",
+      "text": "Gebelik şekerim var. Günde 7 kere şekerimi ölçmem gerekiyormuş ama eczaneye gittiğimde cihazın ve ölçüm çubuklarının çok pahalı olduğunu gördüm. Sağlık ocağındaki aile hekimine bu şeker ölçüm çubuklarını yazdırsam SGK tamamını karşılıyor mu?",
+      "cas_items": [
+        "cas_health_system",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "K7-1",
@@ -1245,7 +1362,11 @@
       "type": "klavuz_vaka",
       "axis": "saglik_sistemi",
       "sub_theme": "CGM endikasyonu ve SGK",
-      "text": "İki hafta önce insülin başladım, günde 7 kez parmak deliyorum, parmaklarım çok acıyor ve iz yapıyor. Sürekli glukoz takip cihazları (CGM) varmış, bana uygun mu, hangisini almalıyım? SGK karşılıyor mu yoksa cebimden mi alacağım?",
+      "text": "Gebelik şekerim için iki hafta önce insülin başladım, günde 7 kez parmak deliyorum, parmaklarım çok acıyor ve iz yapıyor. Sürekli glukoz takip cihazları (CGM) varmış, bana uygun mu, hangisini almalıyım? SGK karşılıyor mu yoksa cebimden mi alacağım?",
+      "cas_items": [
+        "cas_health_system",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "K8-1",
@@ -1296,7 +1417,10 @@
       "type": "klavuz_vaka",
       "axis": "sosyal",
       "sub_theme": "Ev işleri egzersiz yerine geçer mi",
-      "text": "Doktorum gün içinde hareketli olmamı, yemeklerden sonra yürüyüş yapmamı söyledi ama dışarı çıkacak vaktim yok. Akşam yemeğinden sonra sofrayı toplayıp, evi süpürmek ve bulaşıkları yıkamak yürüyüş, aktivite yerine geçer mi, kan şekerimi yeterince düşürür mü?",
+      "text": "Gebelik şekerim var. Doktorum gün içinde hareketli olmamı, yemeklerden sonra yürüyüş yapmamı söyledi ama dışarı çıkacak vaktim yok. Akşam yemeğinden sonra sofrayı toplayıp, evi süpürmek ve bulaşıkları yıkamak yürüyüş, aktivite yerine geçer mi, kan şekerimi yeterince düşürür mü?",
+      "cas_items": [
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "K9-1",
@@ -1341,7 +1465,12 @@
       "type": "klavuz_vaka",
       "axis": "sosyal",
       "sub_theme": "Aşerme ve halk inanışları",
-      "text": "Canım inanılmaz derecede baklava çekiyor. 'Hamilelikte aşerilen şey yenmezse çocukta leke çıkar' diyorlar. Sadece bir porsiyon baklava yesem, tek seferlik yükselen şeker bebeğime zarar verir mi?",
+      "text": "Gebelik şekerim var. Canım inanılmaz derecede baklava çekiyor. 'Hamilelikte aşerilen şey yenmezse çocukta leke çıkar' diyorlar. Sadece bir porsiyon baklava yesem, tek seferlik yükselen şeker bebeğime zarar verir mi?",
+      "cas_items": [
+        "cas_food",
+        "cas_local",
+        "cas_cultural"
+      ],
       "checklist": [
         {
           "id": "K10-1",

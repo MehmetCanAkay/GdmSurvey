@@ -114,11 +114,15 @@ def _show_form(services, evaluator_id: str, current: dict, initial: dict | None)
             prefix,
             saved_checks if editing else None,
         )
+        cas_items = [item for item in CAS_ITEMS if item.key in current["cas_items"]]
         cas = _scale_fields(
             "3. Kültürel uygunluk (CAS)",
-            CAS_ITEMS,
+            cas_items,
             CAS_OPTIONS,
-            "0 uyumsuz, 2 uyumlu.",
+            (
+                f"Bu soruda {len(cas_items)} madde puanlanır; soruyla ilgisiz maddeler gösterilmez. "
+                "0 uyumsuz, 1 kısmen, 2 uyumlu."
+            ),
             response_id,
             prefix,
             None if initial is None else initial.get("cas"),
@@ -167,9 +171,9 @@ def _show_form(services, evaluator_id: str, current: dict, initial: dict | None)
     try:
         with st.spinner("Kaydediliyor..."):
             if editing:
-                services.scoring.update(draft, checklist)
+                services.scoring.update(draft, checklist, current["cas_items"])
             else:
-                services.scoring.submit(draft, checklist)
+                services.scoring.submit(draft, checklist, current["cas_items"])
     except ScoringValidationError as exc:
         st.error(str(exc))
         return
@@ -323,7 +327,7 @@ def _missing_required(gqs, cas, safety, discern) -> str | None:
     if safety is None:
         return "Güvenlik sorusu yanıtlanmadı."
     if any(value is None for value in cas.values()):
-        return "CAS maddelerinin hepsi işaretlenmelidir."
+        return "Gösterilen CAS maddelerinin hepsi işaretlenmelidir."
     if any(value is None for value in discern.values()):
         return "DISCERN maddelerinin hepsi işaretlenmelidir."
     return None

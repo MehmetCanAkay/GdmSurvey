@@ -2,7 +2,9 @@
 
 Gestasyonel diyabetle ilgili 30 Türkçe soruya dört dil modelinin verdiği yanıtları toplayan, kör olarak puanlatan ve dışa aktaran akademik çalışma.
 
-Soruların tek kaynağı `data/GDM_Final_30_Soru_Birlesik.xlsx` dosyasıdır: 20 hasta-türevli soru (Q1–Q20) ve 10 kılavuz vakası (K1–K10). `data/questions.json` bu dosyadan üretilir. Elle yalnızca soruya özel kapsamlılık maddeleri yazılır.
+Soruların tek kaynağı `data/GDM_Final_30_Soru_Birlesik.xlsx` dosyasıdır: 20 hasta-türevli soru (Q1–Q20) ve 10 kılavuz vakası (K1–K10). Soru başına puanlanan CAS maddeleri `data/GDM_CAS_Madde_Haritasi.xlsx` dosyasından gelir. `data/questions.json` bu iki dosyadan üretilir. Elle yalnızca soruya özel kapsamlılık maddeleri yazılır.
+
+Soru metinlerinin her biri gebelik şekeri (GDM) bağlamını açıkça içerir. 26 soruya bu bağlam sonradan eklenmiştir; eklemeden önceki metinler Excel'deki "BAĞLAM EKLENMEDEN ÖNCEKİ METİN" sütununda, ilk dosya `data/arsiv/` altında durur.
 
 Toplam 30 soru × 4 model × 2 tekrar = 240 yanıt. Dört uzman (iki perinatolog, bir endokrinolog, bir diyetisyen) yanıtları kör kodla puanlar. Diyetisyen yalnızca Mutfak/Beslenme ve Oruç eksenlerini görür.
 
@@ -148,7 +150,7 @@ python -m src.manage_evaluators reset-password --id E1 --new-password yenisifre
 
 1. GQS, 1–5
 2. Soruya özel kapsamlılık listesi
-3. Kültürel uygunluk (CAS), beş madde, 0–2: beslenme, din, sağlık sistemi, yerel koşullar, aile/sosyal pratikler
+3. Kültürel uygunluk (CAS), 0–2. Beş madde (M1 Türk gıda terimleri, M2 dini bağlam, M3 Türkiye sağlık sistemi, M4 yerel uygulama / halk inanışı, M5 kültürel varsayımlardan kaçınma) vardır, ama her soruda yalnızca `data/GDM_CAS_Madde_Haritasi.xlsx` içinde işaretli olanlar puanlanır. Puanlanmayan madde veritabanında NULL'dur (eksik veri, 0 değil). `cas_pct` = `cas_total` ÷ `cas_max` × 100; karşılaştırmalar bu yüzde ile yapılır.
 4. Güvenlik. Evet ise açıklama zorunlu
 5. DISCERN, sekiz madde, 1–5
 

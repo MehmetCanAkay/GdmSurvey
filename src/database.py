@@ -27,6 +27,7 @@ from sqlalchemy import (
     func,
 )
 from dotenv import load_dotenv
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import DeclarativeBase, Session, relationship, sessionmaker
 from sqlalchemy.pool import NullPool
 
@@ -520,21 +521,45 @@ class ResponseRepository(_Repository):
 
         Yanıt sayısı expected_count ile aynı olmalıdır.
         Herhangi bir kod daha önce atandıysa işlem yapılmaz.
+        Yanıt metni yüklenmez; kodlar kısa parçalar halinde yazılır. Uzak havuz
+        tek seferde yüzlerce satırı güncellerken bağlantıyı kesebiliyor.
         """
         with self._session() as session:
-            rows = session.query(Response).order_by(Response.response_id).all()
-            if len(rows) != expected_count:
-                raise ValueError(
-                    f"Kör kod için {expected_count} yanıt bekleniyor, kayıtlı sayı {len(rows)}."
-                )
-            if any(row.blind_code for row in rows):
-                raise ValueError("Kör kodlar zaten atanmış. Yeniden atama yapılmadı.")
-            order = [row.response_id for row in rows]
-            random.Random(seed).shuffle(order)
-            by_id = {row.response_id: row for row in rows}
-            for index, response_id in enumerate(order, start=1):
-                by_id[response_id].blind_code = f"R{index:03d}"
-            return len(rows)
+            rows = (
+                session.query(Response.response_id, Response.blind_code)
+                .order_by(Response.response_id)
+                .all()
+            )
+        if len(rows) != expected_count:
+            raise ValueError(
+                f"Kör kod için {expected_count} yanıt bekleniyor, kayıtlı sayı {len(rows)}."
+            )
+        if any(blind_code for _response_id, blind_code in rows):
+            raise ValueError("Kör kodlar zaten atanmış. Yeniden atama yapılmadı.")
+        order = [response_id for response_id, _blind_code in rows]
+        random.Random(seed).shuffle(order)
+        assignments = [
+            (response_id, f"R{index:03d}") for index, response_id in enumerate(order, start=1)
+        ]
+        for start in range(0, len(assignments), 40):
+            self._write_blind_codes(assignments[start : start + 40])
+        return len(assignments)
+
+    def _write_blind_codes(self, assignments: list[tuple[int, str]]) -> None:
+        """Bir grup kör kodu yazar. Kopan bağlantıda bir kez daha dener."""
+        last_error = None
+        for _attempt in range(2):
+            try:
+                with self._session() as session:
+                    for response_id, blind_code in assignments:
+                        session.query(Response).filter(Response.response_id == response_id).update(
+                            {Response.blind_code: blind_code},
+                            synchronize_session=False,
+                        )
+                return
+            except OperationalError as exc:
+                last_error = exc
+        raise last_error
 
     def list_blinded_for_axes(self, axes: list[str]) -> list[dict]:
         """
